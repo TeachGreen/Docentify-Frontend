@@ -1,5 +1,26 @@
+body { background-color: red;}
+
 .dropdown-toggle::after {
     display:none;
+}
+
+.active {
+    font-weight: 800 !important;
+
+}
+#navbar > .nav-link:hover {
+    background-color: #06A5B8 !;
+}
+
+#navbar {
+    width: 100%;
+
+    position: sticky;
+    z-index: 10;
+
+    background-color: #FFF !important;
+
+    box-shadow: 2px 8px 15px rgba(0, 0, 0, 0.05);
 }
 
 #navbar-search {

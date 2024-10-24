@@ -1,0 +1,20 @@
+<div class="d-flex col-12 flex-column align-items-center">
+    <div class="d-flex flex-row col-12 justify-content-between">
+        <ng-content></ng-content>
+    </div>
+
+    <div class="d-flex flex-row col-2 justify-content-between mt-3">
+        <button (click)="prevPage()" class="carousel-previous-page" [ngClass]="{'disabled': this.currentPage == 0}" [disabled]="this.currentPage == 0">
+            <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.54138 14.4584L1.58301 7.5L9.54138 0.541628" stroke="#515151" />
+            </svg>
+            Anterior
+        </button>
+        <button (click)="nextPage()" class="carousel-next-page" [ngClass]="{'disabled': this.currentPage == this.maxPage}" [disabled]="this.currentPage == this.maxPage">
+            Próximo
+            <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.45862 14.4169L8.41699 7.4585L0.458619 0.500124" stroke="#515151" />
+            </svg>
+        </button>
+    </div>
+</div>

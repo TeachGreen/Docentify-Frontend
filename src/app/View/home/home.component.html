@@ -1,0 +1,36 @@
+<hero-section></hero-section>
+
+<div class="course-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-title">Em andamento</h2>
+            </div>
+        </div>
+        <div class="row">
+            <course-card-carousel [amountPerPage]="4">
+                <div style="width:20vw;" class="course-card" *ngFor="let course of courses" >
+                    <course-card [course]="course"></course-card>
+                </div>
+            </course-card-carousel>
+        </div>
+    </div>
+</div>
+
+
+<div class="course-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="section-title">Novos na Plataforma</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex flex-wrap justify-content-between row-gap-3">
+                <div style="width: 20vw;" class="course-card" *ngFor="let course of courses" >
+                    <course-card [course]="course"></course-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

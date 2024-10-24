@@ -13,4 +13,9 @@
     box-sizing: border-box;
     --bs-navbar-active-color: #06A5B8;
     --bs-nav-link-color: #1E1E1E;
+    --bs-nav-link-hover-color: #06A5B8;
+}
+
+body {
+    background-color: #f5fbef;
 }

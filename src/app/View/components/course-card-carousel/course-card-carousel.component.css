@@ -1,0 +1,18 @@
+.carousel-previous-page, .carousel-next-page {
+    background-color: transparent;
+
+    color: #515151;
+    text-decoration: none;
+
+    border: none;
+}
+
+.disabled {
+    color: #B3B3B3;
+
+    cursor: not-allowed;
+
+    & path {
+        stroke: #B3B3B3;
+    }
+}
