@@ -19,3 +19,50 @@
 body {
     background-color: #f5fbef;
 }
+
+.hero-section-title {
+    color: #344127;
+    font-size: 48px;
+    font-weight: 800;
+}
+
+.hero-section-title-highlight {
+    color: #142304;
+}
+
+.hero-section-text {
+    color: #344127;
+    font-size: 16px;
+}
+
+.section-title {
+    color: #142304;
+    font-size: 24px;
+}
+
+.section-description {
+    color: #666666;
+}
+
+.course-section {
+    margin-top: 4vh;
+}
+
+.search-bar {
+    border-radius: 16px !important;
+
+    padding-right: 32px;
+}
+
+.search-bar-button {
+    width: 28px;
+    height: 28px;
+
+    margin-left: -32px !important;
+
+    background-color: #06A5B8;
+
+    border: none;
+
+    z-index: 10;
+}

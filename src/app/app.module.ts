@@ -4,9 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HomeModule } from './View/home/home.module';
+import { HomeModule } from './view/home/home.module';
 import { RouterOutlet } from '@angular/router';
-import { ComponentsModule } from './View/components/components.module';
+import { ComponentsModule } from './view/components/components.module';
+import { CoursesModule } from './view/courses/courses.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ComponentsModule } from './View/components/components.module';
     AppRoutingModule,
     NgbModule,
     RouterOutlet,
-    HomeModule
+    HomeModule,
+    CoursesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
