@@ -20,6 +20,12 @@ body {
     background-color: #f5fbef;
 }
 
+.hero-section {
+    height: 50vh;
+
+    background-color: #CBF1A5;
+}
+
 .hero-section-title {
     color: #344127;
     font-size: 48px;

@@ -8,6 +8,7 @@ import { HomeModule } from './view/home/home.module';
 import { RouterOutlet } from '@angular/router';
 import { ComponentsModule } from './view/components/components.module';
 import { CoursesModule } from './view/courses/courses.module';
+import { PathsModule } from './view/paths/paths.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CoursesModule } from './view/courses/courses.module';
     NgbModule,
     RouterOutlet,
     HomeModule,
-    CoursesModule
+    CoursesModule,
+    PathsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

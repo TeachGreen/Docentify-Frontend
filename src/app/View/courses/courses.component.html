@@ -1,5 +1,4 @@
-<div class="d-flex col-12 align-items-center overflow-hidden justify-content-around"
-    style="background-color: #CBF1A5; height: 40vh">
+<div class="d-flex col-12 align-items-center overflow-hidden justify-content-around hero-section">
     <div class="col-4">
         <h2 class="hero-section-title"><span class="hero-section-title-highlight"
                 style="font-size: 48px; font-weight: 800;">TREINAMENTOS</span></h2>
@@ -495,7 +494,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 d-flex flex-row flex-wrap justify-content-between row-gap-3">
+            <div class="col-12 d-flex flex-row column-gap-4">
                 <div class="col-3">
                     <label>Buscar:</label>
                     <div class="d-flex align-items-center input-group">
@@ -550,7 +549,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 d-flex flex-wrap justify-content-between row-gap-3">
+            <div class="col-12 d-flex flex-wrap column-gap-3 row-gap-3">
                 <div style="width: 20vw;" class="course-card" *ngFor="let course of courses">
                     <course-card [course]="course"></course-card>
                 </div>
