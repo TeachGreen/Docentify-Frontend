@@ -4,13 +4,18 @@ import { HomeComponent } from './view/home/home.component';
 import { CoursesComponent } from './view/courses/courses.component';
 import { PathsComponent } from './view/paths/paths.component';
 import { LoginComponent } from './view/login/login.component';
+import { AuthGuard } from './injectables/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'treinamentos', component: CoursesComponent },
-  { path: 'trilhas', component: PathsComponent }
+  {
+    path: '', canActivateChild: [AuthGuard], children: [
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
+      { path: 'treinamentos', component: CoursesComponent },
+      { path: 'trilhas', component: PathsComponent }
+    ]
+  },
 ];
 
 @NgModule({

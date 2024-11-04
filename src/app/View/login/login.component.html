@@ -1,7 +1,7 @@
 <div class="d-flex flex-row col-12 vh-100" style="background-color: #fcfbfb;">
     <div class="col-6 d-none d-md-flex align-items-center" style="overflow: hidden;">
-        <svg class="vw-100 h-125" style="background-color: #d8f0c0; margin-top: -10vw;" width="747"
-            height="1020" viewBox="0 0 747 1020" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="vw-100 h-125" style="background-color: #d8f0c0; margin-top: -10vw;" width="747" height="1020"
+            viewBox="0 0 747 1020" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M329.449 -10.8332C145.575 66.3685 317.014 303.813 693.449 414.167" stroke="#E6C619"
                 stroke-opacity="0.45" stroke-width="35" />
             <path d="M348.166 642.137C490.371 502.325 243.183 345.26 -147.353 382.172" stroke="#F26114"
@@ -108,7 +108,8 @@
             </defs>
         </svg>
     </div>
-    <div id="login-container" class="col-12 col-md-7 h-100 d-flex flex-column justify-content-around align-items-center">
+    <div id="login-container"
+        class="col-12 col-md-7 h-100 d-flex flex-column justify-content-around align-items-center">
         <svg width="370" height="108" viewBox="0 0 370 108" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M225.641 77.5637H213.518V48.7218C213.518 43.1922 211.055 40.4274 206.13 40.4274C201.71 40.4274 198.426 42.5324 196.279 46.7425V77.5637H184.155V43.5378C184.155 37.5684 182.608 34.2066 179.514 33.4526V32.0388H195.332L195.521 37.317C198.868 33.107 203.541 31.002 209.539 31.002C214.212 31.002 217.938 32.3215 220.716 34.9606C224 38.0396 225.641 42.6267 225.641 48.7218V77.5637Z"
@@ -174,22 +175,33 @@
         </svg>
 
         <div class="d-flex flex-column">
-            <h2 class="section-title" >Bem-vindo(a)!</h2>
-            <p class="section-description">Faça seu login para acessar treinamentos e trilhas da sua Instituição de Ensino em um único lugar!</p>
-            <div class="d-flex flex-column h-75 mt-3">
+            <h2 class="section-title">Bem-vindo(a)!</h2>
+            <p class="section-description">Faça seu login para acessar treinamentos e trilhas da sua Instituição de
+                Ensino em um único lugar!</p>
+            <form [formGroup]="form" class="d-flex flex-column h-75 mt-3">
                 <label class="input-label" for="email-input">E-mail de acesso</label>
-                <input id="email-input" class="text-input form-control">
+                <input formControlName="email" class="text-input form-control">
+                <div class="error" *ngIf="form.get('email')!.invalid && (form.get('email')!.dirty || form.get('email')!.touched)">
+                    <div *ngIf="form.get('email')!.errors?.['required']">E-mail é obrigatório</div>
+                    <div *ngIf="form.get('email')!.errors?.['email']">E-mail não é um e-mail válido</div>
+                </div>
 
                 <label class="input-label mt-3" for="password-input">Senha</label>
-                <input id="password-input" class="text-input form-control" type="password">
+                <input formControlName="password" class="text-input form-control" type="password">
+                <div class="error" *ngIf="form.get('password')!.invalid && (form.get('password')!.dirty || form.get('password')!.touched)">
+                    <div *ngIf="form.get('password')!.errors?.['required']">Senha é obrigatório</div>
+                </div>
+                <div class="error" *ngIf="!validLogin">
+                    <div>E-mail ou senha inválidos</div>
+                </div>
                 <a id="password-reset-link">Esqueceu sua senha?</a>
 
                 <div class="d-flex flex-column align-items-center mt-4">
-                    <button id="login-button" class="form-control">Entrar</button>
+                    <button id="login-button" [disabled]="form.invalid" class="form-control" (click)="login()">Entrar</button>
                     <span class="section-description my-2">ou</span>
                     <button id="register-button" class="form-control">Cadastrar conta</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
