@@ -9,10 +9,12 @@ import { RouterOutlet } from '@angular/router';
 import { ComponentsModule } from './view/components/components.module';
 import { CoursesModule } from './view/courses/courses.module';
 import { PathsModule } from './view/paths/paths.module';
+import { LoginComponent } from './view/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
