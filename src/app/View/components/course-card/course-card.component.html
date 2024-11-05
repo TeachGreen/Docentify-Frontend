@@ -1,34 +1,19 @@
-<div class="d-flex flex-column justify-content-around p-2 col-12 course-card-body">
-    <img class="course-card-image">
+<div class="d-flex flex-column justify-content-around p-2 col-12 course-card-body  unselectable">
+    <div class="course-card-image" draggable="false"></div>
     <span
         class="mt-1" [ngClass]="{'course-required-tag': course.isRequired, 'course-free-tag': !course.isRequired}">{{course.isRequired
         ? 'Obrigatório' : 'Livre'}}</span>
-    <span class="course-card-title my-2">{{course.title}}</span>
+    <div class="course-card-title-div">
+        <span class="course-card-title my-2">{{trimIfTooLong(course.title, 20)}}</span>
+    </div>
     <div class="d-flex flex-row justify-content-between">
         <div class="d-flex flex-column">
             <span class="course-time">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_4050_8523)">
-                        <path
-                            d="M6.99984 12.8332C10.2215 12.8332 12.8332 10.2215 12.8332 6.99984C12.8332 3.77818 10.2215 1.1665 6.99984 1.1665C3.77818 1.1665 1.1665 3.77818 1.1665 6.99984C1.1665 10.2215 3.77818 12.8332 6.99984 12.8332Z"
-                            stroke="#06A5B8" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7 3.5V7L9.33333 8.16667" stroke="#06A5B8" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_4050_8523">
-                            <rect width="14" height="14" fill="white" />
-                        </clipPath>
-                    </defs>
-                </svg>
+                <i class="ph-bold ph-clock"></i>
                 Carga horária: {{course.time}}h
             </span>
             <a class="course-details">Ver detalhes
-                <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M11.7272 4.94172C11.8443 4.82452 11.9102 4.66558 11.9102 4.49985C11.9102 4.33412 11.8443 4.17518 11.7272 4.05797L8.19154 0.522348C8.13389 0.462654 8.06492 0.41504 7.98867 0.382285C7.91241 0.349529 7.8304 0.332288 7.74742 0.331567C7.66443 0.330845 7.58213 0.346659 7.50532 0.378085C7.42851 0.40951 7.35873 0.455918 7.30004 0.514601C7.24136 0.573284 7.19495 0.643067 7.16353 0.719877C7.1321 0.796687 7.11629 0.878987 7.11701 0.961974C7.11773 1.04496 7.13497 1.12697 7.16773 1.20323C7.20048 1.27948 7.2481 1.34844 7.30779 1.4061L9.77654 3.87485L1.49966 3.87485C1.3339 3.87485 1.17493 3.9407 1.05772 4.05791C0.940512 4.17512 0.874665 4.33409 0.874665 4.49985C0.874665 4.66561 0.940512 4.82458 1.05772 4.94179C1.17493 5.059 1.3339 5.12485 1.49966 5.12485H9.77654L7.30779 7.5936C7.19394 7.71148 7.13094 7.86935 7.13237 8.03322C7.13379 8.1971 7.19952 8.35385 7.3154 8.46973C7.43128 8.58561 7.58804 8.65135 7.75191 8.65277C7.91579 8.65419 8.07366 8.5912 8.19154 8.47735L11.7272 4.94172Z"
-                        fill="#06A5B8" />
-                </svg>
+                <i class="ph-bold ph-arrow-right"></i>
             </a>
         </div>
         <svg width="32" height="28" viewBox="0 0 32 28" [attr.fill]="course.isFavorited ? '#FF3D3D' : 'none'" xmlns="http://www.w3.org/2000/svg">

@@ -1,4 +1,8 @@
-body { background-color: red;}
+body { 
+    background-color: red;
+    scroll-behavior: smooth;
+    
+}
 
 .dropdown-toggle::after {
     display:none;
@@ -16,7 +20,8 @@ body { background-color: red;}
     width: 100%;
 
     position: sticky;
-    z-index: 10;
+    top:0;
+    z-index: 1000;
 
     background-color: #FFF !important;
 
@@ -29,4 +34,34 @@ body { background-color: red;}
     border-top: #CBCBCB 1px solid;
 
     background-color: white;
+}
+
+footer span{
+    cursor: default;
+
+}
+
+footer a svg path:hover{
+    transition: all ease 0.5s;
+    fill: #548623;
+}
+
+.mobile-item{
+    display: none;
+}
+
+.desktop-item{
+    display: block;
+}
+
+@media(max-width: 480px) {
+    .mobile-item{
+        display: block;
+    }
+
+    .desktop-item{
+        display: none;
+    }
+
+   
 }

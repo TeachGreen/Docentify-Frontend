@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sunflower:wght@300;500;700&display=swap');
+
 /* You can add global styles to this file, and also import other style files */
 @font-face {
     font-family: 'Poppins';
@@ -18,6 +20,7 @@
 
 body {
     background-color: #f5fbef;
+    overflow-x: hidden;
 }
 
 .hero-section {
@@ -27,12 +30,15 @@ body {
 }
 
 .hero-section-title {
+    font-family: 'Montserrat';
     color: #344127;
     font-size: 48px;
     font-weight: 800;
 }
 
 .hero-section-title-highlight {
+    font-family: 'Montserrat';
+
     color: #142304;
 }
 
@@ -67,12 +73,76 @@ body {
     margin-left: -32px !important;
 
     background-color: #06A5B8;
-
+    color: #FFFFFF;
     border: none;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 10;
+}
+
+.search-bar{
+    margin-left: 5%;
 }
 
 .error {
     color: red;
+}
+
+
+.unselectable {
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.search-bar-button:hover{
+    transition: all ease 1s;
+    background-color: #03555e;
+}
+
+@media(max-width: 480px) {
+    .hero-section{
+        display: flex;
+        flex-direction: column;
+        height: 85%;
+        
+    }
+    
+    .hero-section svg{
+        width: 275%;
+        height: 275%;
+       
+      
+    }
+
+    .svg-div{
+        height: 185%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    
+
+    .hero-section-text h2{
+        font-size: 185%;
+        
+    }
+
+    .hero-section-text p{
+        font-size: 95%;
+        
+    }
+
+    .hero-section-text{
+        width: 85%;
+        margin-top: 6%;
+    }
+   
 }

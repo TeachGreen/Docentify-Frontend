@@ -8,4 +8,12 @@ import { Course } from '../../../Models/Course';
 })
 export class CourseCardComponent {
   @Input() course!: Course;
+
+  
+  trimIfTooLong(text: string, maxLength: number): string {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + '...';
+  }
 }
