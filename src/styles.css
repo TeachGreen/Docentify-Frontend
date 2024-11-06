@@ -114,7 +114,7 @@ body {
     
    
     .hero-section img{
-        position: relative;
+        
         width: 20rem;
         height: 20rem;
        
@@ -154,5 +154,7 @@ body {
         width: 85%;
         margin-top: 6%;
     }
+
+   
    
 }

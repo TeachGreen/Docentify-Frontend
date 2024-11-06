@@ -54,6 +54,15 @@ footer a svg path:hover{
     display: block;
 }
 
+#socials-logo{
+    display: flex;
+}
+
+.socials-logo-fill{
+    background-color: #548623;
+    margin-left: 15%;
+}
+
 @media(max-width: 480px) {
     .mobile-item{
         display: block;
@@ -63,5 +72,7 @@ footer a svg path:hover{
         display: none;
     }
 
-   
+   footer span{
+    font-size: 65%;
+   }
 }

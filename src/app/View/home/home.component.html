@@ -4,7 +4,7 @@
         <p>Bem-vindo(a) à nossa plataforma de treinamentos! Estamos entusiasmados em tê-lo(a) aqui e prontos para ajudar
             na sua jornada de desenvolvimento profissional.</p>
     </div>
-    <div class="col-4">
+    <div >
         <div class="svg-div">
             <img src="../../../assets/home_hero.svg">
         </div>
@@ -18,9 +18,9 @@
                 <h2 class="section-title unselectable">Em andamento</h2>
             </div>
         </div>
-        <div class="row">
+        <div class="row course-card-carousel-div">
             <course-card-carousel [amountPerPage]="4">
-                <div style="width:20vw;" class="course-card" *ngFor="let course of courses" >
+                <div  class="course-card" *ngFor="let course of courses" >
                     <course-card [course]="course"></course-card>
                 </div>
             </course-card-carousel>
@@ -36,9 +36,9 @@
                 <h2 class="section-title unselectable">Novos na Plataforma</h2>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 d-flex flex-wrap justify-content-between row-gap-3">
-                <div style="width: 20vw;" class="course-card" *ngFor="let course of courses" >
+        <div class="row" >
+            <div class="col-12 row-gap-3 content">
+                <div class="course-card" *ngFor="let course of courses" >
                     <course-card [course]="course"></course-card>
                 </div>
             </div>

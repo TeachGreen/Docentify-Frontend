@@ -1,4 +1,5 @@
 .course-card-body {
+    width: 20vw;
     height: 100%;
 
     background-color: #F5F5F5;
@@ -80,6 +81,10 @@
 
 
 /* Mobile viewport */
-@media(max-width: 400px){
-
+@media(max-width: 480px) {
+    .course-card-body {
+        width: 95%;
+        
+      
+    }
 }
