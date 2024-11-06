@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'DocentifyFrontend';
+  hiddenMenuRoutes = ['/login', '/registration'];
 
   constructor(public router: Router ) {
 

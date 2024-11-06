@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent {
     let emailField = this.form.get('email');
     let passwordField = this.form.get('password');
 
-    fetch('http://localhost:5264/api/authentication/login/user', {
+    fetch(`${environment.api}/authentication/login/user`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: emailField!.value, password: passwordField!.value })

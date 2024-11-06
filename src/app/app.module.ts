@@ -14,11 +14,13 @@ import { JwtInterceptor } from './injectables/jwt-interceptor.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from './injectables/auth.guard';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { RegistrationComponent } from './view/registration/registration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,

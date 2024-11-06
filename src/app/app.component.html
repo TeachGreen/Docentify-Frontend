@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar" style="background-color: #FFFFFF;" *ngIf="router.url !== '/login'">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar" style="background-color: #FFFFFF;" *ngIf="!hiddenMenuRoutes.includes(router.url)">
     <div class="container-fluid">
         <a routerLink="home" routerLinkActive="active" class="navbar-brand" draggable=false>
             <svg class="unselectable"  width="108" height="33" viewBox="0 0 108 33" fill="none" xmlns="http://www.w3.org/2000/svg" routerLink="home" >
@@ -132,7 +132,7 @@
 
 <router-outlet></router-outlet>
 
-<footer id="footer" class="d-flex flex-row justify-content-between mt-3 justify-content-between align-items-center p-3" *ngIf="router.url !== '/login'">
+<footer id="footer" class="d-flex flex-row justify-content-between mt-3 justify-content-between align-items-center p-3" *ngIf="!hiddenMenuRoutes.includes(router.url)">
     <span class="unselectable" draggable="false">© 2024 Docentify. Todos os direitos reservados.</span>
     <div class="d-flex flex-row justify-content-around" style="width: 5vw">
         <a id="socials-logo">

@@ -20,7 +20,6 @@
 
 body {
     background-color: #f5fbef;
-    overflow-x: hidden;
 }
 
 .hero-section {
@@ -81,14 +80,13 @@ body {
     z-index: 10;
 }
 
-.search-bar{
+.search-bar {
     margin-left: 5%;
 }
 
 .error {
     color: red;
 }
-
 
 .unselectable {
     user-drag: none;
@@ -99,62 +97,137 @@ body {
     -ms-user-select: none;
 }
 
-.search-bar-button:hover{
+.search-bar-button:hover {
     transition: all ease 1s;
     background-color: #03555e;
 }
 
 @media(max-width: 480px) {
-    .hero-section{
+    .hero-section {
         display: flex;
         flex-direction: column;
         height: 85%;
-        
-    }
-    
-   
-    .hero-section img{
-        
-        width: 20rem;
-        height: 20rem;
-       
+
     }
 
-    .col-4{
-       
-        height: 10rem;
-        
-   
+    .hero-section img {
+        position: relative;
+        width: 20rem;
+        height: 20rem;
+
     }
-    
-    .svg-div{
+
+    .col-4 {
+
+        height: 10rem;
+
+
+    }
+
+    .svg-div {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
     }
 
-    
-
-    .hero-section-text h2{
+    .hero-section-text h2 {
         font-size: 185%;
-        
+
     }
 
-    .hero-section-text p{
+    .hero-section-text p {
         font-size: 95%;
-        
+
     }
 
-    #treinamentos-h2{
+    #treinamentos-h2 {
         font-size: 95%;
     }
 
-    .hero-section-text{
+    .hero-section-text {
         width: 85%;
         margin-top: 6%;
     }
+}
 
-   
-   
+.filled-entry-button, .unfilled-entry-button {
+    width: 100%;
+    height: 3rem;
+
+    border-radius: 64px;
+
+    font-weight: 800;
+
+    border-color: #5F9C22;
+}
+
+@media (min-width: 768px) {
+    .filled-entry-button, .unfilled-entry-button {
+        width: 40%;
+    }
+}
+
+.filled-entry-button {
+    background-color: #5F9C22;
+    color: white;
+}
+
+.filled-entry-button:disabled {
+    background-color: #5f9c229a;
+    color: white;
+}
+
+.unfilled-entry-button {
+    border-width: 2px;
+
+    color: #5F9C22;
+}
+
+#docentify-entry-logo {
+    width: 75%;
+}
+
+@media (min-width: 768px) {
+    #docentify-entry-logo {
+        width: 100%;
+    }
+}
+
+#entry-container {
+    height: 100vh;
+    width: 100vw;
+
+    background-image: url('./assets/login.svg');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#entry-form {
+    background-color: #fcfbfb;
+
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+@media (min-width: 768px) {
+    #entry-form {
+        padding-left: 7rem;
+        padding-right: 7rem;
+    }
+}
+
+.text-input, .input-label {
+    font-size: 18px;
+}
+
+.text-input {
+    border-radius: 16px;
+    border: 1px solid #5F9C22;
+}
+
+.input-label {
+    color: #142304;
+    font-weight: 800;
 }

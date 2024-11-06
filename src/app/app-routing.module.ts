@@ -5,17 +5,19 @@ import { CoursesComponent } from './view/courses/courses.component';
 import { PathsComponent } from './view/paths/paths.component';
 import { LoginComponent } from './view/login/login.component';
 import { AuthGuard } from './injectables/auth.guard';
+import { RegistrationComponent } from './view/registration/registration.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  //{
-    //path: '', canActivateChild: [AuthGuard], children: [
+  { path: 'registration', component: RegistrationComponent },
+  {
+    path: '', canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'treinamentos', component: CoursesComponent },
       { path: 'trilhas', component: PathsComponent }
-    //]
-  //},
+    ]
+  },
 ];
 
 @NgModule({
