@@ -1,0 +1,28 @@
+.course-card-image {
+    width: 100%;
+    height: 12rem;
+    pointer-events: none;
+    background-image: url('../../../assets/teste-curso.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border-radius: 8px;
+    margin-bottom: 4%;
+    border: none;
+}
+
+.modulo {
+    display: flex;
+    align-items: center;
+    padding-left: 2vw;
+
+    border-radius: 16px;
+
+    margin: 2vh 0;
+    width: 100%;
+    height: 8vh;
+
+    background-color: #DAECC8;
+    color: #3E5426;
+
+}

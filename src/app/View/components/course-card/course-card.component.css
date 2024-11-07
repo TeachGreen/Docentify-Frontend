@@ -8,6 +8,8 @@
     border-radius: 12px;
 
     cursor: pointer;
+
+    text-decoration: none;
 }
 
 .course-required-tag {

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModule } from './view/home/home.module';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { CoursesModule } from './view/courses/courses.module';
 import { PathsModule } from './view/paths/paths.module';
 import { LoginComponent } from './view/login/login.component';
@@ -16,6 +16,7 @@ import { AuthGuard } from './injectables/auth.guard';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { RegistrationComponent } from './view/registration/registration.component';
 import { ProfileComponent } from './view/profile/profile.component';
+import { CourseComponent } from './view/course/course.component';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,12 @@ import { ProfileComponent } from './view/profile/profile.component';
     LoginComponent,
     RegistrationComponent,
     ProfileComponent,
+    CourseComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    RouterModule,
+    BrowserModule,
     NgbModule,
     RouterOutlet,
     ReactiveFormsModule,

@@ -45,6 +45,9 @@
                 <div class="course-card" *ngFor="let course of newCourses" >
                     <course-card [course]="course"></course-card>
                 </div>
+                <div class="col-12 d-flex justify-content-around " *ngIf="newCourses.length == 0">
+                    <span style="color: rgba(0, 0, 0, 0.563)">Nenhum curso em andamento</span>
+                </div>
             </div>
         </div>
     </div>
