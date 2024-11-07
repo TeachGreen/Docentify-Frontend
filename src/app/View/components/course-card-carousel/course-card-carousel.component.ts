@@ -27,13 +27,13 @@ export class CourseCardCarouselComponent {
 
   showPage() {
     let page = this.currentPage;
-    if (page == 0) {
+    if (page == 0 || this.content.length % this.amountPerPage == 0) {
       this.previousButton.disabled = true;
     } else {
       this.previousButton.disabled = false;
     }
 
-    if (page == this.maxPage) {
+    if (page == this.maxPage || this.content.length % this.amountPerPage == 0) {
       this.nextButton.style.cursor = 'not-allowed';
       this.nextButton.disabled = true;
     } else {

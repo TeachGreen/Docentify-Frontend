@@ -20,8 +20,11 @@
         </div>
         <div class="row course-card-carousel-div">
             <course-card-carousel [amountPerPage]="4">
-                <div  class="course-card" *ngFor="let course of courses" >
+                <div  class="course-card" *ngFor="let course of onGoingCourses" >
                     <course-card [course]="course"></course-card>
+                </div>
+                <div class="col-12 d-flex justify-content-around " *ngIf="onGoingCourses.length == 0">
+                    <span style="color: rgba(0, 0, 0, 0.563)">Nenhum curso em andamento</span>
                 </div>
             </course-card-carousel>
         </div>
@@ -38,8 +41,8 @@
         </div>
 
         <div class="row" >
-            <div class="col-12 row-gap-3 content">
-                <div class="course-card" *ngFor="let course of courses" >
+            <div class="col-12 row-gap-3 content justify-content-start column-gap-3 ">
+                <div class="course-card" *ngFor="let course of newCourses" >
                     <course-card [course]="course"></course-card>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Course } from '../../../Models/Course';
+import { Course } from '../../../models/Course';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'course-card',
@@ -15,5 +16,17 @@ export class CourseCardComponent {
       return text;
     }
     return text.slice(0, maxLength) + '...';
+  }
+
+  favorite() {
+    this.course.isFavorited = !this.course.isFavorited;
+    
+    fetch(`${environment.api}/Course/Favorite/${this.course.id}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
+    }).then(response => response.json())
+      .then((data) => {
+      });
+
   }
 }

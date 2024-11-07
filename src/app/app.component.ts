@@ -14,4 +14,9 @@ export class AppComponent {
   constructor(public router: Router ) {
 
   }
+
+  deslogar() {
+    localStorage.removeItem('jwt');
+    this.router.navigateByUrl('/login');
+  }
 }
