@@ -1,0 +1,38 @@
+.profile-menu-option {
+    display: block;
+    border-bottom: 1px solid #C2C2C2;
+
+    padding: 1vh 1vw;
+
+    color: #06A5B8;
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.profile-menu-option:hover {
+    background-color: rgba(0, 0, 0, 0.045);
+}
+
+.profile-menu-option:first-child {
+    border-top: 1px solid #C2C2C2;
+}
+
+.profile-name {
+    color: #06A5B8;
+}
+
+.profile-properties {
+    color: #666666;
+
+    margin-bottom: 2vh;
+}
+
+.profile-properties > * {
+    display: block;
+    margin: 0;
+}
+
+.profile-property {
+    font-weight: 600;
+}

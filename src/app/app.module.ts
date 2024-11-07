@@ -15,12 +15,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from './injectables/auth.guard';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { RegistrationComponent } from './view/registration/registration.component';
+import { ProfileComponent } from './view/profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

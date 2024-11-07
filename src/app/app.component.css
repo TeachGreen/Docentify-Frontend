@@ -17,10 +17,11 @@ body {
 }
 
 #navbar {
+    height: 9vh;
     width: 100%;
 
     position: sticky;
-    top:0;
+    top: 0;
     z-index: 1000;
 
     background-color: #FFF !important;
