@@ -17,6 +17,7 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { RegistrationComponent } from './view/registration/registration.component';
 import { ProfileComponent } from './view/profile/profile.component';
 import { CourseComponent } from './view/course/course.component';
+import { TextStepComponent } from './view/text-step/text-step.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CourseComponent } from './view/course/course.component';
     RegistrationComponent,
     ProfileComponent,
     CourseComponent,
+    TextStepComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -10,25 +10,3 @@
     margin-bottom: 4%;
     border: none;
 }
-
-.modulo {
-    display: flex;
-    align-items: center;
-    padding-left: 2vw;
-
-    border-radius: 16px;
-
-    margin: 2vh 0;
-    width: 100%;
-    height: 8vh;
-
-    background-color: #DAECC8;
-    color: #3E5426;
-
-}
-
-a {
-    text-decoration: none;
-    color: #3E5426;
-
-}

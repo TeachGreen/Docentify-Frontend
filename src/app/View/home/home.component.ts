@@ -29,13 +29,13 @@ export class HomeComponent {
         this.onGoingCourses = data;
       });
 
-    fetch(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=NotStarted`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    }).then(response => response.json())
-      .then((data) => {
-        this.onGoingCourses.concat(data);
-      });
+    // fetch(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=NotStarted`, {
+    //   method: 'GET',
+    //   headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
+    // }).then(response => response.json())
+    //   .then((data) => {
+    //     this.onGoingCourses.concat(data);
+    //   });
 
   }
 }
