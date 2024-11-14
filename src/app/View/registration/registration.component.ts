@@ -11,6 +11,7 @@ import { environment } from '../../environment';
 export class RegistrationComponent {
   form: FormGroup;
   validRegistration: boolean = true;
+  processing: boolean = false;
 
   constructor(public router: Router) {
     this.form = new FormGroup({
@@ -35,7 +36,8 @@ export class RegistrationComponent {
     let genderField = this.form.get('gender');
     let birthDateField = this.form.get('birthDate');
 
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/authentication/register/user`, {
+    this.processing = true;
+    fetch(`${environment.api}/authentication/register/user`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -49,6 +51,7 @@ export class RegistrationComponent {
       })
     })
       .then(response => {
+        this.processing = false;
         if (response.status !== 200) {
           this.validRegistration = false;
           return;

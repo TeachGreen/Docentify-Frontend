@@ -251,3 +251,31 @@ body {
     color: #142304;
     font-weight: 800;
 }
+
+.course-required-tag {
+    width: fit-content;
+
+    padding: .5vh;
+
+    color: #F26114;
+    font-size: 85%;
+
+    background-color: #f9cb99;
+
+    border-radius: 4px;
+
+    margin-bottom: 2%;
+}
+
+.course-free-tag {
+    width: fit-content;
+
+    padding: .5vh;
+
+    color: #51673A;
+    font-size: 85%;
+
+    background-color: #BED5A7;
+
+    border-radius: 4px;
+}

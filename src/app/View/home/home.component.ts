@@ -12,7 +12,7 @@ export class HomeComponent {
   newCourses: Course[] = []
 
   ngOnInit() {
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/User?OrderBy=Date&OrderByDescending=true&amount=20`, {
+    fetch(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20`, {
       method: 'GET',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
     }).then(response => response.json())
@@ -21,21 +21,12 @@ export class HomeComponent {
         this.newCourses = data;
       });
 
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=InProgress`, {
+    fetch(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=InProgress`, {
       method: 'GET',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
     }).then(response => response.json())
       .then((data) => {
         this.onGoingCourses = data;
       });
-
-    // fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=NotStarted`, {
-    //   method: 'GET',
-    //   headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    // }).then(response => response.json())
-    //   .then((data) => {
-    //     this.onGoingCourses.concat(data);
-    //   });
-
   }
 }

@@ -27,7 +27,7 @@
                 <a id="password-reset-link" class="unselectable">Esqueceu sua senha?</a>
 
                 <div class="d-flex flex-column align-items-center mt-4">
-                    <button class="form-control filled-entry-button" [disabled]="form.invalid" (click)="login()">Entrar</button>
+                    <button class="form-control filled-entry-button" [disabled]="form.invalid || processing" (click)="login()">Entrar</button>
                     <span class="section-description my-2 unselectable">ou</span>
                     <button class="form-control unfilled-entry-button" routerLink="/registration" routerLinkActive="active">Cadastrar conta</button>
                 </div>

@@ -11,10 +11,11 @@
     border: none;
 }
 
-.modulo {
+.module {
     display: flex;
     align-items: center;
-    padding-left: 2vw;
+    justify-content: space-between;
+    padding: 0 2vw;
 
     border-radius: 16px;
 
@@ -43,4 +44,15 @@ a {
 
 #course-breadcrumb{
     display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+#course-breadcrumb > *{
+    margin: 0 .8vw;
+}
+
+#course-date {
+    color: #999696;
 }

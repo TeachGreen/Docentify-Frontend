@@ -13,17 +13,19 @@ export class CourseComponent {
   activityAmount: number = 0;
   readingAmount: number = 0;
   videoAmount: number = 0;
+  processing: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/${this.activatedRoute.snapshot.params['id']}/with-steps`, {
+    fetch(`${environment.api}/Course/${this.activatedRoute.snapshot.params['id']}/with-steps`, {
       method: 'GET',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
     }).then(response => response.json())
       .then((data) => {
         this.course = data;
         this.steps = this.course.steps;
+        this.course.requiredDate = new Date(this.course.requiredDate).toLocaleDateString('pt-BR');
         for (let step of this.course.steps) {
           if (step.type === 1) {
             this.readingAmount++;
@@ -37,7 +39,8 @@ export class CourseComponent {
   }
 
   realizarMatricula() {
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/Enroll/${this.course.id}`, {
+    this.processing = true
+    fetch(`${environment.api}/Course/Enroll/${this.course.id}`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
     }
@@ -45,17 +48,20 @@ export class CourseComponent {
       if (response.status == 200) {
         this.course.isEnrolled = true;
       }
+      this.processing = false;
     })
   }
 
   cancelarMatricula() {
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/Discontinue/${this.course.id}`, {
+    this.processing = true
+    fetch(`${environment.api}/Course/Discontinue/${this.course.id}`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
     }).then(response => {
       if (response.status == 200) {
         this.course.isEnrolled = false;
       }
+      this.processing = false;
     })
   }
 }

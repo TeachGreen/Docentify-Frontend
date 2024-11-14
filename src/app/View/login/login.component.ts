@@ -11,6 +11,7 @@ import { environment } from '../../environment';
 export class LoginComponent {
   form: FormGroup;
   validLogin: boolean = true;
+  processing: boolean = false;
 
   constructor(public router: Router) {
     this.form = new FormGroup({
@@ -23,7 +24,8 @@ export class LoginComponent {
     let emailField = this.form.get('email');
     let passwordField = this.form.get('password');
 
-    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/authentication/login/user`, {
+    this.processing = true;
+    fetch(`${environment.api}/authentication/login/user`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: emailField!.value, password: passwordField!.value })
@@ -37,6 +39,7 @@ export class LoginComponent {
         return response.json()
       })
       .then((data) => {
+        this.processing = false;
         if (!data.jwt) {
           return;
         }
