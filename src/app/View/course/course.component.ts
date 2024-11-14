@@ -17,7 +17,7 @@ export class CourseComponent {
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    fetch(`${environment.api}/Course/${this.activatedRoute.snapshot.params['id']}/with-steps`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/${this.activatedRoute.snapshot.params['id']}/with-steps`, {
       method: 'GET',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
     }).then(response => response.json())
@@ -37,7 +37,7 @@ export class CourseComponent {
   }
 
   realizarMatricula() {
-    fetch(`${environment.api}/Course/Enroll/${this.course.id}`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/Enroll/${this.course.id}`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
     }
@@ -49,7 +49,7 @@ export class CourseComponent {
   }
 
   cancelarMatricula() {
-    fetch(`${environment.api}/Course/Discontinue/${this.course.id}`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/Discontinue/${this.course.id}`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }
     }).then(response => {

@@ -21,7 +21,7 @@ export class CourseCardComponent {
   favorite() {
     this.course.isFavorited = !this.course.isFavorited;
     
-    fetch(`${environment.api}/Course/Favorite/${this.course.id}`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/Favorite/${this.course.id}`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
     }).then(response => response.json())

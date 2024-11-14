@@ -9,6 +9,7 @@ import { RegistrationComponent } from './view/registration/registration.componen
 import { ProfileComponent } from './view/profile/profile.component';
 import { CourseComponent } from './view/course/course.component';
 import { TextStepComponent } from './view/text-step/text-step.component';
+import { RankingComponent } from './View/ranking/ranking.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +21,7 @@ const routes: Routes = [
       { path: 'treinamentos', component: CoursesComponent },
       { path: 'treinamento/:id', component: CourseComponent },
       { path: 'treinamento/:courseId/leitura/:id', component: TextStepComponent },
-      { path: 'trilhas', component: PathsComponent },
+      { path: 'ranking', component: RankingComponent },
       { path: 'perfil', component: ProfileComponent }
     ]
   },

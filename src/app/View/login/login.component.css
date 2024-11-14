@@ -1,4 +1,33 @@
 #password-reset-link {
     color: #5F9C22;
     text-decoration: underline;
+    cursor: pointer;
+}
+
+#password-reset-link:hover{
+    transition: all ease 0.5s;
+    color: #437313;
+}
+
+.section-description{
+    cursor: default;
+}
+
+.svg-div{
+    width: 35%;
+}
+
+#entry-form{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.input-label{
+    font-size: 95%;
+
+}
+
+input{
+    margin-bottom: 0.5%;
+    font-size: 90%;
 }

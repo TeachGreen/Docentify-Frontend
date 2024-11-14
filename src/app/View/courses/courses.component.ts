@@ -24,7 +24,7 @@ export class CoursesComponent {
     this.route.queryParams.subscribe(params => {
       this.params = params;
 
-      let url = `${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20`;
+      let url = `https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/Course/User?OrderBy=Date&OrderByDescending=true&amount=20`;
       if (this.params['search']) {
         url += `&name=${this.params['search']}`;
       }

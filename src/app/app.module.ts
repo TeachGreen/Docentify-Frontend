@@ -18,6 +18,7 @@ import { RegistrationComponent } from './view/registration/registration.componen
 import { ProfileComponent } from './view/profile/profile.component';
 import { CourseComponent } from './view/course/course.component';
 import { TextStepComponent } from './view/text-step/text-step.component';
+import { RankingComponent } from './View/ranking/ranking.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TextStepComponent } from './view/text-step/text-step.component';
     ProfileComponent,
     CourseComponent,
     TextStepComponent,
+    RankingComponent,
   ],
   imports: [
     AppRoutingModule,

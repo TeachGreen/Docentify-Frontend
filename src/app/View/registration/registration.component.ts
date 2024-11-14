@@ -35,7 +35,7 @@ export class RegistrationComponent {
     let genderField = this.form.get('gender');
     let birthDateField = this.form.get('birthDate');
 
-    fetch(`${environment.api}/authentication/register/user`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/authentication/register/user`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({

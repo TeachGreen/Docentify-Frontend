@@ -13,7 +13,7 @@ export class ProfileComponent {
   constructor(public router: Router) { }
 
   ngOnInit() {
-    fetch(`${environment.api}/User`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/User`, {
       method: 'GET',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
     }).then(response => response.json())

@@ -23,7 +23,7 @@ export class LoginComponent {
     let emailField = this.form.get('email');
     let passwordField = this.form.get('password');
 
-    fetch(`${environment.api}/authentication/login/user`, {
+    fetch(`https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api/authentication/login/user`, {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: emailField!.value, password: passwordField!.value })

@@ -59,9 +59,24 @@ footer a svg path:hover{
     display: flex;
 }
 
+#socials-logo i{
+    font-size: 120%;
+}
+
 .socials-logo-fill{
     background-color: #548623;
+    border-radius: 256px;
+    width: 85%;
+    height: 85%;
+    padding: 8%;
+    color: #FFFFFF;
     margin-left: 15%;
+    cursor: pointer;
+}
+
+.socials-logo-fill:hover{
+    transition: all ease 0.5s;
+    background-color: #70b22e;
 }
 
 @media(max-width: 480px) {
