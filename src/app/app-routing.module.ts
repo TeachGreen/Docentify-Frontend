@@ -8,8 +8,10 @@ import { AuthGuard } from './injectables/auth.guard';
 import { RegistrationComponent } from './view/registration/registration.component';
 import { ProfileComponent } from './view/profile/profile.component';
 import { CourseComponent } from './view/course/course.component';
-import { TextStepComponent } from './view/text-step/text-step.component';
+import { TextStepComponent } from './view/course/text-step/text-step.component';
 import { RankingComponent } from './View/ranking/ranking.component';
+import { CourseSummaryComponent } from './view/course/course-summary/course-summary.component';
+import { VideoStepComponent } from './view/course/video-step/video-step.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,7 +21,11 @@ const routes: Routes = [
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'treinamentos', component: CoursesComponent },
-      { path: 'treinamento/:id', component: CourseComponent },
+      { path: 'treinamento/:id', component: CourseComponent, children: [
+        { path: '', component: CourseSummaryComponent },
+        { path: 'leitura/:id', component: TextStepComponent },
+        { path: 'video/:id', component: VideoStepComponent },
+      ] },
       { path: 'treinamento/:courseId/leitura/:id', component: TextStepComponent },
       { path: 'ranking', component: RankingComponent },
       { path: 'perfil', component: ProfileComponent }

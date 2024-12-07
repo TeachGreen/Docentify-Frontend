@@ -17,8 +17,11 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { RegistrationComponent } from './view/registration/registration.component';
 import { ProfileComponent } from './view/profile/profile.component';
 import { CourseComponent } from './view/course/course.component';
-import { TextStepComponent } from './view/text-step/text-step.component';
+import { TextStepComponent } from './view/course/text-step/text-step.component';
 import { RankingComponent } from './View/ranking/ranking.component';
+import { CourseSummaryComponent } from './view/course/course-summary/course-summary.component';
+import { ActivityStepDescriptionComponent } from './view/course/activity-step-description/activity-step-description.component';
+import { VideoStepComponent } from './view/course/video-step/video-step.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { RankingComponent } from './View/ranking/ranking.component';
     CourseComponent,
     TextStepComponent,
     RankingComponent,
+    CourseSummaryComponent,
+    ActivityStepDescriptionComponent,
+    VideoStepComponent,
   ],
   imports: [
     AppRoutingModule,
