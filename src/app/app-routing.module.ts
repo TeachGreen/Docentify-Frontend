@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './view/home/home.component';
 import { CoursesComponent } from './view/courses/courses.component';
-import { PathsComponent } from './view/paths/paths.component';
 import { LoginComponent } from './view/login/login.component';
 import { AuthGuard } from './injectables/auth.guard';
 import { RegistrationComponent } from './view/registration/registration.component';
@@ -16,23 +15,22 @@ import { ActivityStepDescriptionComponent } from './view/course/activity-step-de
 import { ActivityStepComponent } from './view/course/activity-step/activity-step.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'registration', component: RegistrationComponent },
+  { path: 'login', component: LoginComponent, title: 'Login - Docentify' },
+  { path: 'registration', component: RegistrationComponent, title: 'Cadastro - Docentify' },
   {
     path: '', canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'treinamentos', component: CoursesComponent },
+      { path: 'home', component: HomeComponent, title: 'Página Inicial - Docentify' },
+      { path: 'treinamentos', component: CoursesComponent, title: 'Treinamentos - Docentify' },
       { path: 'treinamento/:id', component: CourseComponent, children: [
         { path: '', component: CourseSummaryComponent },
-        { path: 'leitura/:id', component: TextStepComponent },
-        { path: 'video/:id', component: VideoStepComponent },
-        { path: 'descricao-atividade/:id', component: ActivityStepDescriptionComponent },
-        { path: 'atividade/:id', component: ActivityStepComponent },
+        { path: 'leitura/:id', component: TextStepComponent, title: 'Leitura - Docentify' },
+        { path: 'video/:id', component: VideoStepComponent, title: 'Vídeo - Docentify' },
+        { path: 'descricao-atividade/:id', component: ActivityStepDescriptionComponent, title: 'Descrição da Atividade - Docentify' },
+        { path: 'atividade/:id', component: ActivityStepComponent, title: 'Atividade - Docentify' },
       ] },
-      { path: 'treinamento/:courseId/leitura/:id', component: TextStepComponent },
-      { path: 'ranking', component: RankingComponent },
-      { path: 'perfil', component: ProfileComponent }
+      { path: 'ranking', component: RankingComponent, title: 'Ranking - Docentify' },
+      { path: 'perfil', component: ProfileComponent, title: 'Perfil - Docentify' },
     ]
   },
 ];

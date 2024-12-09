@@ -40,6 +40,7 @@ export class LoginComponent {
         }
 
         localStorage.setItem('jwt', data.jwt);
+        localStorage.setItem('user', JSON.stringify(data.userId));
 
         this.router.navigateByUrl('/home');
       })

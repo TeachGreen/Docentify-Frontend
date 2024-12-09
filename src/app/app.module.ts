@@ -7,7 +7,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModule } from './view/home/home.module';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { CoursesModule } from './view/courses/courses.module';
-import { PathsModule } from './view/paths/paths.module';
 import { LoginComponent } from './view/login/login.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './injectables/jwt-interceptor.interceptor';
@@ -49,7 +48,6 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HomeModule,
     CoursesModule,
-    PathsModule,
     HttpClientModule
   ],
   providers: [

@@ -23,7 +23,7 @@ export class AppComponent {
   }
 
   deslogar() {
-    localStorage.removeItem('jwt');
+    localStorage.clear();
     this.router.navigateByUrl('/login');
   }
 }

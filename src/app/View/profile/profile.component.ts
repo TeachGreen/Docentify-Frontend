@@ -27,7 +27,7 @@ export class ProfileComponent {
   }
 
   deslogar() {
-    localStorage.removeItem('jwt');
+    localStorage.clear();
     this.router.navigateByUrl('/login');
   }
 }
