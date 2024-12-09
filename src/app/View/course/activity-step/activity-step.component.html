@@ -1,0 +1,51 @@
+<div class="col-12 d-flex flex-row" style="min-height: 75vh;">
+    <div class="col-10 d-flex flex-column align-items-start">
+        <h3>{{stepData.title}}</h3>
+        <div class="horizontal-line">
+        <div *ngIf="activityData" class="questions-container">
+            <div *ngFor="let question of activityData.questions; index as i">
+                <span class="question-id">Questão {{i + 1}}:</span>
+                <span>{{question.statement}}</span>
+                <div *ngFor="let option of question.options">
+                    <div class="col-12 gap-2">
+                        <input class="checkbox" type="radio" id="{{option.id}}" name="{{question.id}}"
+                            value="{{option.id}}" (click)="checkRadio(question.id, option.id)">
+                        <label for="{{option.id}}">{{option.text}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2 d-flex flex-column" id="activity-sidebar">
+        <div *ngIf="attemptsData">
+            <h4>Tentativa Atual:</h4>
+            <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M13.4618 4.152L10.8488 1.5375C9.8565 0.546 8.538 0 7.13625 0H3.75C1.68225 0 0 1.68225 0 3.75V14.25C0 16.3178 1.68225 18 3.75 18H11.25C13.3177 18 15 16.3178 15 14.25V7.86375C15 6.4605 14.4532 5.1435 13.4618 4.152ZM12.4012 5.21325C12.6398 5.451 12.8415 5.71575 13.005 6.00075H9.74925C9.33525 6.00075 8.99925 5.664 8.99925 5.25075V1.99425C9.28425 2.15775 9.549 2.3595 9.7875 2.598L12.4012 5.21325ZM13.5 14.2508C13.5 15.4913 12.4905 16.5007 11.25 16.5007H3.75C2.5095 16.5007 1.5 15.4913 1.5 14.2508V3.75C1.5 2.5095 2.5095 1.5 3.75 1.5H7.13625C7.2585 1.5 7.38 1.506 7.5 1.51725V5.25C7.5 6.4905 8.5095 7.5 9.75 7.5H13.4827C13.494 7.62 13.5 7.7415 13.5 7.86375V14.2508Z"
+                    fill="#6B8C49" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M10.5 8C10.7071 8 10.875 8.16789 10.875 8.375V10.625C10.875 10.8321 10.7071 11 10.5 11C10.2929 11 10.125 10.8321 10.125 10.625V8.375C10.125 8.16789 10.2929 8 10.5 8Z"
+                    fill="#6B8C49" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M9 9.5C9 9.29289 9.16789 9.125 9.375 9.125H11.625C11.8321 9.125 12 9.29289 12 9.5C12 9.70711 11.8321 9.875 11.625 9.875H9.375C9.16789 9.875 9 9.70711 9 9.5Z"
+                    fill="#6B8C49" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M5.42365 6C5.58671 6 5.73378 6.09803 5.79651 6.24857L7.81613 11.0957C7.90192 11.3016 7.80454 11.5381 7.59862 11.6239C7.3927 11.7097 7.15624 11.6123 7.07041 11.4064L5.42365 7.45412L3.77689 11.4064C3.6911 11.6123 3.4546 11.7097 3.24868 11.6239C3.04276 11.5381 2.94538 11.3016 3.03117 11.0957L5.05079 6.24857C5.11352 6.09803 5.26059 6 5.42365 6Z"
+                    fill="#6B8C49" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.80835 9.63531H7.03974V10.4432H3.80835V9.63531Z"
+                    fill="#6B8C49" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M3 13.1883C3 12.9674 3.17908 12.7883 3.4 12.7883H10.6C10.8209 12.7883 11 12.9674 11 13.1883C11 13.4093 10.8209 13.5883 10.6 13.5883H3.4C3.17908 13.5883 3 13.4093 3 13.1883Z"
+                    fill="#6B8C49" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M3 14.7879C3 14.567 3.17908 14.3879 3.4 14.3879H8.2C8.42092 14.3879 8.6 14.567 8.6 14.7879C8.6 15.0089 8.42092 15.1879 8.2 15.1879H3.4C3.17908 15.1879 3 15.0089 3 14.7879Z"
+                    fill="#6B8C49" />
+            </svg>
+            {{ attemptsData.length + 1 }}ª tentativa em andamento
+
+            <button id="submit-button" class="filled-entry-button form-control" (click)="enviarAvaliacao()">Enviar avaliação</button>
+
+        </div>
+    </div>
+</div>

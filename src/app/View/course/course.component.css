@@ -33,8 +33,22 @@
     color: #999696;
 }
 
+.step-completion-button {
+    width: 50%;
+}
+
+.step-description {
+    color: #666666;
+    display:block;
+
+    margin-bottom: 1vh;
+}
+
 a {
     text-decoration: none;
     color: #3E5426;
+}
 
+.back-button {
+    cursor: pointer;
 }

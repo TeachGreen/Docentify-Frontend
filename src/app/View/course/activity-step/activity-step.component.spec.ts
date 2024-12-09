@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextStepComponent } from './text-step.component';
+import { ActivityStepComponent } from './activity-step.component';
 
-describe('TextStepComponent', () => {
-  let component: TextStepComponent;
-  let fixture: ComponentFixture<TextStepComponent>;
+describe('ActivityStepComponent', () => {
+  let component: ActivityStepComponent;
+  let fixture: ComponentFixture<ActivityStepComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TextStepComponent]
+      declarations: [ActivityStepComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TextStepComponent);
+    fixture = TestBed.createComponent(ActivityStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

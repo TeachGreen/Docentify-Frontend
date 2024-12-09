@@ -22,6 +22,9 @@ import { RankingComponent } from './View/ranking/ranking.component';
 import { CourseSummaryComponent } from './view/course/course-summary/course-summary.component';
 import { ActivityStepDescriptionComponent } from './view/course/activity-step-description/activity-step-description.component';
 import { VideoStepComponent } from './view/course/video-step/video-step.component';
+import { ActivityStepComponent } from './view/course/activity-step/activity-step.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -35,6 +38,7 @@ import { VideoStepComponent } from './view/course/video-step/video-step.componen
     CourseSummaryComponent,
     ActivityStepDescriptionComponent,
     VideoStepComponent,
+    ActivityStepComponent
   ],
   imports: [
     AppRoutingModule,
@@ -45,7 +49,8 @@ import { VideoStepComponent } from './view/course/video-step/video-step.componen
     ReactiveFormsModule,
     HomeModule,
     CoursesModule,
-    PathsModule
+    PathsModule,
+    HttpClientModule
   ],
   providers: [
     {

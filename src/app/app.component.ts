@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from './environment';
 
 
 @Component({
@@ -11,8 +12,14 @@ export class AppComponent {
   title = 'DocentifyFrontend';
   hiddenMenuRoutes = ['/login', '/registration'];
 
-  constructor(public router: Router ) {
+  @ViewChild('searchBar') searchBar: any;
 
+  constructor(public router: Router) {
+
+  }
+
+  search() {
+    this.router.navigate(['/treinamentos'], { queryParams: { 'search': this.searchBar.nativeElement.value } });
   }
 
   deslogar() {

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../environment';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { httpOptionsHeaders } from '../../config/httpOptions';
 
 @Component({
   selector: 'app-registration',
@@ -13,7 +15,7 @@ export class RegistrationComponent {
   validRegistration: boolean = true;
   processing: boolean = false;
 
-  constructor(public router: Router) {
+  constructor(public router: Router, private httpClient: HttpClient) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -37,29 +39,22 @@ export class RegistrationComponent {
     let birthDateField = this.form.get('birthDate');
 
     this.processing = true;
-    fetch(`${environment.api}/authentication/register/user`, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: nameField!.value,
-        email: emailField!.value,
-        password: passwordField!.value,
-        telephone: phoneField!.value,
-        document: documentField!.value,
-        gender: genderField!.value,
-        birthDate: birthDateField!.value
-      })
-    })
-      .then(response => {
+    this.httpClient.post<HttpResponse<any>>(`${environment.api}/authentication/register/user`, JSON.stringify({
+      name: nameField!.value,
+      email: emailField!.value,
+      password: passwordField!.value,
+      telephone: phoneField!.value,
+      document: documentField!.value,
+      gender: genderField!.value,
+      birthDate: birthDateField!.value
+    }), { headers: httpOptionsHeaders, observe: 'response' })
+      .subscribe((response: HttpResponse<any>) => {
         this.processing = false;
         if (response.status !== 200) {
           this.validRegistration = false;
           return;
         }
 
-        return response.json()
-      })
-      .then((data) => {
         this.router.navigateByUrl('/login');
       })
   }

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Course } from '../../../models/Course';
 import { environment } from '../../../environment';
+import { HttpClient } from '@angular/common/http';
+import { httpOptions } from '../../../config/httpOptions';
 
 @Component({
   selector: 'course-card',
@@ -10,7 +12,8 @@ import { environment } from '../../../environment';
 export class CourseCardComponent {
   @Input() course!: Course;
 
-  
+  constructor(private httpClient: HttpClient) { }
+
   trimIfTooLong(text: string, maxLength: number): string {
     if (text.length <= maxLength) {
       return text;
@@ -20,13 +23,9 @@ export class CourseCardComponent {
 
   favorite() {
     this.course.isFavorited = !this.course.isFavorited;
-    
-    fetch(`${environment.api}/Course/Favorite/${this.course.id}`, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    }).then(response => response.json())
-      .then((data) => {
-      });
 
+    this.httpClient.post(`${environment.api}/Course/Favorite/${this.course.id}`, httpOptions)
+      .subscribe((data) => {
+      });
   }
 }

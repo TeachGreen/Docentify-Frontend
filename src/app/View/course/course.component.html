@@ -1,6 +1,6 @@
 <div class="breadcrumbs">
     <div id="course-breadcrumb">
-        <a class="unselectable" routerLink="/home" routerLinkActive="active" draggable="false">
+        <a class="back-button unselectable" (click)="voltar()" draggable="false">
             <i class="ph ph-caret-left"></i>
         </a>
         {{course.name}}
@@ -11,8 +11,8 @@
     </div>
     <div id="course-date" *ngIf="course.isEnrolled && course.isRequired">Prazo de realização: {{course.requiredDate}}</div>
 </div>
-<div class="col-12 d-flex flex-row justify-content-around align-items-center" style="height: 80vh;">
-    <div class="col-3 d-flex flex-column">
+<div class="col-12 d-flex flex-row justify-content-around align-items-center" style="min-height: 80vh;">
+    <div class="col-3 d-flex flex-column" *ngIf="hideSidebar">
         <div class="course-card-image" draggable="false"></div>
 
         <div class="mt-2">

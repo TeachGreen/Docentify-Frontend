@@ -1,42 +1,29 @@
 import { Component } from '@angular/core';
 import { environment } from '../../../environment';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { httpOptions } from '../../../config/httpOptions';
 
 @Component({
   selector: 'app-text-step',
   templateUrl: './text-step.component.html',
-  styleUrl: './text-step.component.css'
+  styleUrls: ['./text-step.component.css', '../course.component.css']
 })
 export class TextStepComponent {
-  data: any = { content: ''};
-  course: any = { name: '', description: '', steps: [] };
+  data: any = { content: '' };
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute, private httpClient: HttpClient) { }
 
   ngOnInit() {
-    fetch(`${environment.api}/Step/${this.activatedRoute.snapshot.params['id']}`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    }).then(response => response.json())
-      .then((data) => {
+    this.httpClient.get(`${environment.api}/Step/${this.activatedRoute.snapshot.params['id']}`, httpOptions)
+      .subscribe((data) => {
         this.data = data;
-
-        fetch(`${environment.api}/Course/${this.activatedRoute.snapshot.params['courseId']}`, {
-          method: 'GET',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-        }).then(response => response.json())
-          .then((data) => {
-            this.course = data;
-          });
       });
   }
 
   marcarConclusao() {
-    fetch(`${environment.api}/Step/Complete/${this.activatedRoute.snapshot.params['id']}`, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    }).then(response => response.json())
-      .then((data) => {
+    this.httpClient.post(`${environment.api}/Step/Complete/${this.activatedRoute.snapshot.params['id']}`, httpOptions)
+      .subscribe((data) => {
         this.data.isCompleted = true;
       });
   }

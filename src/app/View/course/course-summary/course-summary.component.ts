@@ -7,7 +7,7 @@ import { ShareDataService } from '../../../share-data.service';
     class: 'col-6 d-flex flex-column align-items-start',
   },
   templateUrl: './course-summary.component.html',
-  styleUrl: './course-summary.component.css'
+  styleUrls: ['./course-summary.component.css', '../course.component.css']
 })
 export class CourseSummaryComponent {
   course: any;

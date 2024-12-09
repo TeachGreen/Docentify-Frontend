@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Course } from '../../models/Course';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environment';
+import { httpOptions } from '../../config/httpOptions';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-courses',
@@ -17,7 +19,7 @@ export class CoursesComponent {
 
   params: any;
 
-  constructor(public route: ActivatedRoute, public router: Router) {
+  constructor(public route: ActivatedRoute, public router: Router, private httpClient: HttpClient) {
   }
 
   ngOnInit() {
@@ -38,14 +40,11 @@ export class CoursesComponent {
         url += `&onlyFavorites=${this.params['favoritado']}`;
       }
 
-      fetch(url, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-      }).then(response => response.json())
-        .then((data) => {
+      this.httpClient.get(url, httpOptions)
+        .subscribe((data: any) => {
           this.courses = data;
         });
-      });
+    });
   }
 
   ngAfterViewInit() {

@@ -1,14 +1,14 @@
 <div class="col-12 d-flex flex-column justify-content-between align-items-center" style="height: 75vh;">
     <div class="col-12 d-flex flex-column align-items-start" style="height: 50vh;">
-        <h3>{{data.title}} 
+        <h3>{{data.title}}
             <img src="../../../assets/check-circle.svg" width="32px" height="32px"
                 [ngStyle]="{'visibility': data.isCompleted ? 'visible' : 'hidden'}">
         </h3>
-        <span style="color: #666666; display:block">{{data.description}}</span>
+        <span class="step-description">{{data.description}}</span>
         {{data.content}}
     </div>
 
-    <button style="width: 50%" class="filled-entry-button form-control" (click)="marcarConclusao()"
+    <button class="filled-entry-button form-control step-completion-button" (click)="marcarConclusao()"
         [disabled]="data.isCompleted">Marcar como concluído</button>
 
 </div>

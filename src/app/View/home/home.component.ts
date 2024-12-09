@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Course } from '../../models/Course';
 import { environment } from '../../environment';
+import { forkJoin } from 'rxjs';
+import { httpOptions } from '../../config/httpOptions';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -8,25 +11,18 @@ import { environment } from '../../environment';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  onGoingCourses: Course[] = []
-  newCourses: Course[] = []
+  onGoingCourses: any = []
+  newCourses: any = []
+
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-    fetch(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    }).then(response => response.json())
-      .then((data) => {
-        console.log(this.newCourses);
-        this.newCourses = data;
-      });
+    const $newCourses = this.httpClient.get(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20`, httpOptions);
+    const $onGoingCourses = this.httpClient.get(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=InProgress`, httpOptions);
 
-    fetch(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=InProgress`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('jwt')}` },
-    }).then(response => response.json())
-      .then((data) => {
-        this.onGoingCourses = data;
-      });
+    forkJoin([$newCourses, $onGoingCourses]).subscribe(([newCourses, onGoingCourses]) => {
+      this.newCourses = newCourses;
+      this.onGoingCourses = onGoingCourses;
+    });
   }
 }

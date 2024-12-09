@@ -1,1 +1,13 @@
-<p>activity-step-description works!</p>
+<div class="col-12 d-flex flex-column justify-content-between align-items-center" style="height: 75vh;">
+    <div class="col-12 d-flex flex-column align-items-start" style="height: 50vh;">
+        <h3>{{data.title}}
+            <img src="../../../assets/check-circle.svg" width="32px" height="32px"
+                [ngStyle]="{'visibility': data.isCompleted ? 'visible' : 'hidden'}">
+        </h3>
+        <span class="step-description">{{data.description}}</span>
+        {{data.content}}
+    </div>
+
+    <button class="filled-entry-button form-control" [routerLink]="['/treinamento', course.id, 'atividade', data.id]"
+        routerLinkActive="active" [disabled]="data.isCompleted">Começar atividade</button>
+</div>

@@ -12,6 +12,8 @@ import { TextStepComponent } from './view/course/text-step/text-step.component';
 import { RankingComponent } from './View/ranking/ranking.component';
 import { CourseSummaryComponent } from './view/course/course-summary/course-summary.component';
 import { VideoStepComponent } from './view/course/video-step/video-step.component';
+import { ActivityStepDescriptionComponent } from './view/course/activity-step-description/activity-step-description.component';
+import { ActivityStepComponent } from './view/course/activity-step/activity-step.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,6 +27,8 @@ const routes: Routes = [
         { path: '', component: CourseSummaryComponent },
         { path: 'leitura/:id', component: TextStepComponent },
         { path: 'video/:id', component: VideoStepComponent },
+        { path: 'descricao-atividade/:id', component: ActivityStepDescriptionComponent },
+        { path: 'atividade/:id', component: ActivityStepComponent },
       ] },
       { path: 'treinamento/:courseId/leitura/:id', component: TextStepComponent },
       { path: 'ranking', component: RankingComponent },

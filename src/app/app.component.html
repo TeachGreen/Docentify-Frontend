@@ -85,13 +85,13 @@
                     <li class="nav-item mobile-item">
                         <a class="nav-link unselectable" draggable="false" href="#">Meu perfil</a>
                     </li>
-                    <form class="d-flex align-items-center input-group" role="search">
+                    <div class="d-flex align-items-center input-group">
                         <input class="form-control search-bar" type="search" placeholder="O que você está buscando?"
-                            style="font-size: 14px;" aria-label="Search">
-                        <button class="rounded-circle search-bar-button" type="submit">
+                            style="font-size: 14px;" aria-label="Search" #searchBar>
+                        <button class="rounded-circle search-bar-button" (click)="search()">
                             <i class="ph-bold ph-magnifying-glass"></i>
                         </button>
-                    </form>
+                    </div>
                     <li
                         class=" d-flex justify-content-md-end align-items-center nav-item dropdown ml-2 col-12 col-md-5 ">
                         <div class="nav-item dropdown desktop-item"  >
