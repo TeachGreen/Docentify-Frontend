@@ -1,13 +1,32 @@
 <div class="col-12 d-flex flex-column justify-content-between align-items-center" style="height: 75vh;">
     <div class="col-12 d-flex flex-column align-items-start" style="height: 50vh;">
-        <h3>{{data.title}}
+        <h3>{{stepData.title}}
             <img src="../../../assets/check-circle.svg" width="32px" height="32px"
-                [ngStyle]="{'visibility': data.isCompleted ? 'visible' : 'hidden'}">
+                [ngStyle]="{'visibility': stepData.isCompleted ? 'visible' : 'hidden'}">
         </h3>
-        <span class="step-description">{{data.description}}</span>
-        {{data.content}}
+        <span class="step-description">{{stepData.description}}</span>
+        {{stepData.content}}
+        <table>
+            <thead class="thead-light">
+                <tr>
+                    <th>Nota</th>
+                    <th class="name-column">Data</th>
+                    <th>Status</th>
+                </tr>
+            <tbody>
+                <tr *ngFor="let item of attemptData">
+                    <td>{{item.score}}º</td>
+                    <td class="name-column">{{item.date}}</td>
+                    <td>{{item.passed ? 'Aprovado' : 'Reprovado'}}</td>
+                </tr>
+                <tr *ngIf="attemptData.length == 0">
+                    <td class="name-column">Nenhuma tentativa</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <button class="filled-entry-button form-control" [routerLink]="['/treinamento', course.id, 'atividade', data.id]"
-        routerLinkActive="active" [disabled]="data.isCompleted">Começar atividade</button>
+    <button class="filled-entry-button form-control"
+        [routerLink]="['/treinamento', course.id, 'atividade', stepData.id]" routerLinkActive="active"
+        [disabled]="stepData.isCompleted">Começar atividade</button>
 </div>

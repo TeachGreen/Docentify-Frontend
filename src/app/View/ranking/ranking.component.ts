@@ -12,7 +12,8 @@ export class RankingComponent {
   @ViewChild('search') search: any;
 
   podium: any;
-  ranking: any;
+  rankingData: any;
+  currentPage: number = 1;
   userId: any;
 
   constructor(private httpClient: HttpClient) { }
@@ -20,18 +21,33 @@ export class RankingComponent {
   ngOnInit() {
     this.httpClient.get(`${environment.api}/ranking`, httpOptions)
       .subscribe((data: any) => {
-        this.ranking = data.rankings;
+        this.rankingData = data;
         this.podium = data.rankings.slice(0, 3);
       });
 
     this.userId = parseInt(localStorage.getItem('user') ?? '0');
-    console.log(this.userId);
   }
 
   filtrar() {
     this.httpClient.get(`${environment.api}/Ranking?search=${this.search.nativeElement.value}`, httpOptions)
       .subscribe((data: any) => {
-        this.ranking = data.rankings;
+        this.rankingData = data;
+      });
+  }
+
+  previousPage() {
+    this.currentPage--;
+    this.httpClient.get(`${environment.api}/Ranking?page=${this.currentPage}${this.search.nativeElement.value ? '&search=' + this.search.nativeElement.value : ''}`, httpOptions)
+      .subscribe((data: any) => {
+        this.rankingData = data;
+      });
+  }
+
+  nextPage() {
+    this.currentPage++;
+    this.httpClient.get(`${environment.api}/Ranking?page=${this.currentPage}${this.search.nativeElement.value ? '&search=' + this.search.nativeElement.value : ''}`, httpOptions)
+      .subscribe((data: any) => {
+        this.rankingData = data;
       });
   }
 }

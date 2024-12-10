@@ -1,6 +1,6 @@
 .ranking-container {
     width: 100%;
-    height: 60vh;
+    height: 60%;
 
     display: flex;
     flex-direction: row;
@@ -10,7 +10,7 @@
 
 .ranking-podium {
     width: 40%;
-    height: 90%;
+    height: 60vh;
 
     display: flex;
     flex-direction: row;
@@ -27,36 +27,29 @@
     justify-content: flex-end;
     align-items: center;
 
-    margin: 0 .5vw
+    margin: 0 .25vw
 }
 
 .podium-column {
     width: 100%;
 
-
     color: white;
     font-size: 48px;
     text-align: center;
 
-    background-color: #12c040;
+    background: linear-gradient(#139034, #11ce43);
 }
 
 .first-place {
     height: 65%;
-
-    background-color: linear-gradient(#11ce43, #139034);
 }
 
 .second-place {
     height: 50%;
-
-    background-color: linear-gradient(#11ce43, #139034);
 }
 
 .third-place {
     height: 35%;
-
-    background-color: linear-gradient(#11ce43, #139034);
 }
 
 .score {
@@ -86,6 +79,11 @@
 }
 
 .ranking-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     width: 50%;
     height: 100%;
 }
@@ -124,4 +122,13 @@ td {
 
 .self {
     color: #06A5B8;
+}
+
+.carousel-previous-page, .carousel-next-page {
+    background-color: transparent;
+
+    color: #515151;
+    text-decoration: none;
+
+    border: none;
 }

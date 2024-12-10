@@ -56,7 +56,6 @@ export class CourseComponent {
 
     this.httpClient.post<HttpResponse<any>>(`${environment.api}/Course/Enroll/${this.course.id}`, {}, { headers: httpOptionsHeaders, observe: 'response' })
       .subscribe((response: HttpResponse<any>) => {
-        console.log(response);
         if (response.status == 200) {
           this.course.isEnrolled = true;
         }
@@ -69,7 +68,6 @@ export class CourseComponent {
 
     this.httpClient.post<HttpResponse<any>>(`${environment.api}/Course/Discontinue/${this.course.id}`, {}, { headers: httpOptionsHeaders, observe: 'response' })
       .subscribe((response: HttpResponse<any>) => {
-        console.log(response);
         if (response.status == 200) {
           this.course.isEnrolled = false;
         }

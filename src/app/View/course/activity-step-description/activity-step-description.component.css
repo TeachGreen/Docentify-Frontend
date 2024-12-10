@@ -1,1 +1,19 @@
 :host { width: 60vw;}
+
+.thead-light {
+    background-color: #f2f2f2;
+    color: #676666;
+}
+
+table {
+    margin-top: 3vh;
+}
+
+th,
+td {
+    padding: 1vh 1vw;
+}
+
+.name-column {
+    padding: 1vh 4vw;
+}

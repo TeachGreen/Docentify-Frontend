@@ -71,12 +71,26 @@
                     <th>Pontuação</th>
                 </tr>
             <tbody>
-                <tr *ngFor="let user of ranking" [ngClass]="{'self': user.userId == userId}">
+                <tr *ngFor="let user of rankingData.rankings" [ngClass]="{'self': user.userId == userId}">
                     <td [ngClass]="{'first': user.position == 1, 'second': user.position == 2, 'third': user.position == 3}">{{user.position}}º</td>
                     <td class="name-column">{{user.name}}</td>
                     <td>{{user.score}}</td>
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex flex-row col-4 justify-content-between mt-3">
+            <button (click)="previousPage()" class="carousel-previous-page" [ngClass]="{'disabled': currentPage == 1}" [disabled]="currentPage == 1">
+                <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.54138 14.4584L1.58301 7.5L9.54138 0.541628" stroke="#515151" />
+                </svg>
+                Anterior
+            </button>
+            <button (click)="nextPage()" class="carousel-next-page" [ngClass]="{'disabled': currentPage + 1 == rankingData.maxPage}" [disabled]="currentPage + 1 == rankingData.maxPage">
+                Próximo
+                <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.45862 14.4169L8.41699 7.4585L0.458619 0.500124" stroke="#515151" />
+                </svg>
+            </button>
+        </div>
     </div>
 </div>

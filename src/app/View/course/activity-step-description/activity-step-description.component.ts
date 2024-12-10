@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ShareDataService } from '../../../share-data.service';
 import { HttpClient } from '@angular/common/http';
 import { httpOptions } from '../../../config/httpOptions';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 @Component({
   selector: 'app-activity-step-description',
@@ -11,8 +12,9 @@ import { httpOptions } from '../../../config/httpOptions';
   styleUrls: ['./activity-step-description.component.css', '../course.component.css']
 })
 export class ActivityStepDescriptionComponent {
-  data: any = { content: '' };
+  stepData: any = { content: '' };
   course: any = { name: '', description: '', steps: [] };
+  attemptData: any;
 
   constructor(private activatedRoute: ActivatedRoute, private dataService: ShareDataService, private httpClient: HttpClient) { }
 
@@ -23,9 +25,12 @@ export class ActivityStepDescriptionComponent {
 
     this.course.id = this.activatedRoute.snapshot.params['courseId'];
 
-    this.httpClient.get(`${environment.api}/Step/${this.activatedRoute.snapshot.params['id']}`, httpOptions)
-      .subscribe((data: any) => {
-        this.data = data;
-      });
+    const $stepData = this.httpClient.get(`${environment.api}/Step/${this.activatedRoute.snapshot.params['id']}`, httpOptions);
+    const $attemptData = this.httpClient.get(`${environment.api}/Activity/Step/${this.activatedRoute.snapshot.params['id']}/Attempt`, httpOptions);
+
+    forkJoin([$stepData, $attemptData]).subscribe(([stepData, attemptData]) => {
+      this.stepData = stepData;
+      this.attemptData = attemptData;
+    });
   }
 }
