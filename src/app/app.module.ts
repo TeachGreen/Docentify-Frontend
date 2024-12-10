@@ -23,6 +23,9 @@ import { ActivityStepDescriptionComponent } from './view/course/activity-step-de
 import { VideoStepComponent } from './view/course/video-step/video-step.component';
 import { ActivityStepComponent } from './view/course/activity-step/activity-step.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RequestPasswordChangeComponent } from './view/request-password-change/request-password-change.component';
+import { PasswordChangeConfirmationComponent } from './view/password-change-confirmation/password-change-confirmation.component';
+import { NewPasswordCreationComponent } from './view/new-password-creation/new-password-creation.component';
 
 
 @NgModule({
@@ -37,7 +40,10 @@ import { HttpClientModule } from '@angular/common/http';
     CourseSummaryComponent,
     ActivityStepDescriptionComponent,
     VideoStepComponent,
-    ActivityStepComponent
+    ActivityStepComponent,
+    RequestPasswordChangeComponent,
+    PasswordChangeConfirmationComponent,
+    NewPasswordCreationComponent
   ],
   imports: [
     AppRoutingModule,

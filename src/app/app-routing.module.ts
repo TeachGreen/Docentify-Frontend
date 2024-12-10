@@ -13,10 +13,16 @@ import { CourseSummaryComponent } from './view/course/course-summary/course-summ
 import { VideoStepComponent } from './view/course/video-step/video-step.component';
 import { ActivityStepDescriptionComponent } from './view/course/activity-step-description/activity-step-description.component';
 import { ActivityStepComponent } from './view/course/activity-step/activity-step.component';
+import { RequestPasswordChangeComponent } from './view/request-password-change/request-password-change.component';
+import { PasswordChangeConfirmationComponent } from './view/password-change-confirmation/password-change-confirmation.component';
+import { NewPasswordCreationComponent } from './view/new-password-creation/new-password-creation.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, title: 'Login - Docentify' },
   { path: 'registration', component: RegistrationComponent, title: 'Cadastro - Docentify' },
+  { path: 'recuperacao-senha', component: RequestPasswordChangeComponent, title: 'Recuperação de Senha - Docentify' },
+  { path: 'confirmacao-identidade/:id', component: PasswordChangeConfirmationComponent, title: 'Confirmação de Identidade - Docentify' },
+  { path: 'nova-senha/:id/:codigo', component: NewPasswordCreationComponent, title: 'Criação de Nova Senha - Docentify' },
   {
     path: '', canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/home', pathMatch: 'full' },

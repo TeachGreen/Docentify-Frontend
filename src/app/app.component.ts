@@ -10,7 +10,7 @@ import { environment } from './environment';
 })
 export class AppComponent {
   title = 'DocentifyFrontend';
-  hiddenMenuRoutes = ['/login', '/registration'];
+  hiddenMenuRoutes = ['/login', '/registration', '/recuperacao-senha', '/confirmacao-identidade', '/nova-senha'];
 
   @ViewChild('searchBar') searchBar: any;
 

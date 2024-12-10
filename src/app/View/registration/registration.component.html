@@ -1,12 +1,16 @@
 <div id="entry-container" class="d-flex flex-row col-12 justify-content-end">
     <div id="entry-form" class="col-12 col-md-7 d-flex flex-column align-items-center">
         <div class="svg-div">
-            <img id="docentify-entry-logo" class="unselectable" draggable="false" src="../../../assets/docentify_entry_logo.svg">
+            <a routerLink="/login" routerLinkActive="active">
+                <img id="docentify-entry-logo" class="unselectable" draggable="false"
+                    src="../../../assets/docentify_entry_logo.svg">
+            </a>
         </div>
 
         <div class="d-flex flex-column ">
             <h2 class="section-title unselectable" draggable="false">Cadastro de conta</h2>
-            <p class="section-description unselectable">Faça seu cadastro para acessar treinamentos e trilhas da sua Instituição de
+            <p class="section-description unselectable">Faça seu cadastro para acessar treinamentos e trilhas da sua
+                Instituição de
                 Ensino em um único lugar!</p>
             <form [formGroup]="form" class="d-flex flex-column h-75 row-gap-1">
                 <label class="input-label unselectable">Nome completo</label>

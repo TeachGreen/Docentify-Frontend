@@ -1,0 +1,7 @@
+- tela de ranking
+- recuperação de senha
+- foto de curso e usuario
+- validação melhor de cadastro e login
+- modais
+- toasts
+- inserir mais dados
