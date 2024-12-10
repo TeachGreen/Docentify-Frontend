@@ -25,12 +25,6 @@ export class CourseCardCarouselComponent {
   }
 
   showPage() {
-    console.log(this.courses);
-    console.log(this.content);
-    console.log((this.currentPage - 1) * this.amountPerPage)
-    console.log((this.currentPage - 1) * this.amountPerPage)
-    console.log(((this.currentPage - 1) * this.amountPerPage) + this.amountPerPage)
-
     this.content = this.courses.slice((this.currentPage - 1) * this.amountPerPage, (this.currentPage) * this.amountPerPage);
     this.maxPage = Math.ceil(this.courses.length / this.amountPerPage);
 
