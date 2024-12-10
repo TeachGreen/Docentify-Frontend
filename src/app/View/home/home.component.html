@@ -18,14 +18,8 @@
                 <h2 class="section-title unselectable">Em andamento</h2>
             </div>
         </div>
-        <div class="row course-card-carousel-div">
-            <course-card-carousel [amountPerPage]="4">
-                <div  class="course-card" *ngFor="let course of onGoingCourses" >
-                    <course-card [course]="course"></course-card>
-                </div>
-                <div class="col-12 d-flex justify-content-around " *ngIf="onGoingCourses.length == 0">
-                    <span style="color: rgba(0, 0, 0, 0.563)">Nenhum curso em andamento</span>
-                </div>
+        <div class="row course-card-carousel-div" *ngIf="onGoingCourses">
+            <course-card-carousel  [courses]="onGoingCourses">
             </course-card-carousel>
         </div>
     </div>
