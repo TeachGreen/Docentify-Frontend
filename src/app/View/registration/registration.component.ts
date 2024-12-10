@@ -50,7 +50,7 @@ export class RegistrationComponent {
     }), { headers: httpOptionsHeaders, observe: 'response' })
       .subscribe((response: HttpResponse<any>) => {
         this.processing = false;
-        if (response.status !== 200) {
+        if (response.status !== 201) {
           this.validRegistration = false;
           return;
         }
