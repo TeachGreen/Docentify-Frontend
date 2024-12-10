@@ -19,7 +19,6 @@ export class PasswordChangeConfirmationComponent {
   confirmPasswordChange() {
     this.invalidCode = false;
     this.processing = true;
-    console.log(this.codeInput!.nativeElement.value)
     this.httpClient.post<HttpResponse<any>>(`${environment.api}/authentication/confirmidentity/user`, JSON.stringify({
       id: this.activatedRoute.snapshot.params['id'],
       code: this.codeInput!.nativeElement.value

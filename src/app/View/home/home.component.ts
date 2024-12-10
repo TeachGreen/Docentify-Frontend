@@ -21,7 +21,6 @@ export class HomeComponent {
     const $onGoingCourses = this.httpClient.get(`${environment.api}/Course/User?OrderBy=Date&OrderByDescending=true&amount=20&Progress=InProgress`, httpOptions);
 
     forkJoin([$newCourses, $onGoingCourses]).subscribe(([newCourses, onGoingCourses]) => {
-      console.log(newCourses);
       this.newCourses = newCourses;
       this.onGoingCourses = onGoingCourses;
     });

@@ -16,7 +16,6 @@ export class RequestPasswordChangeComponent {
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   requestPasswordChange() {
-    console.log(this.emailInput!.nativeElement.value)
     this.processing = true;
     this.httpClient.post<HttpResponse<any>>(`${environment.api}/authentication/PasswordChangeRequest/User`, JSON.stringify({
       email: this.emailInput!.nativeElement.value

@@ -89,6 +89,8 @@
 }
 
 .ranking-title {
+    margin-top: 1vh;
+
     font-weight: 600;
 
     color: #676666;
