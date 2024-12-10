@@ -1,5 +1,5 @@
 <div class="d-flex flex-column justify-content-around p-2 col-12 course-card-body  unselectable">
-    <div class="course-card-image" draggable="false"></div>
+    <div class="course-card-image" draggable="false" [ngStyle]="{'background-image': 'url(\'' + course.image + '\')'}"></div>
     <span class="mt-1"
         [ngClass]="{'course-required-tag': course.isRequired, 'course-free-tag': !course.isRequired}">{{course.isRequired
         ? 'Obrigatório' : 'Livre'}}</span>

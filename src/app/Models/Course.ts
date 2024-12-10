@@ -5,4 +5,5 @@ export interface Course {
     isFavorited: boolean;
     isRequired: boolean;
     requiredTimeLimit: number;
+    image: string;
 }

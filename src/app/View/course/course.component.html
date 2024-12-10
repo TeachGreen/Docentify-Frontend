@@ -13,7 +13,7 @@
 </div>
 <div class="col-12 d-flex flex-row justify-content-around align-items-center" style="min-height: 80vh;">
     <div class="col-3 d-flex flex-column" *ngIf="hideSidebar">
-        <div class="course-card-image" draggable="false"></div>
+        <div class="course-card-image" draggable="false" [ngStyle]="{'background-image': 'url(\'' + course.image + '\')'}"></div>
 
         <div class="mt-2">
             <h5>{{course.name}}</h5>
