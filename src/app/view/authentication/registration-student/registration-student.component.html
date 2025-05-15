@@ -1,0 +1,80 @@
+<div class="d-flex flex-column ">
+    <h2 class="section-title unselectable" draggable="false">Cadastro de conta</h2>
+    <p class="section-description unselectable">Faça seu cadastro para acessar treinamentos e trilhas da sua
+        Instituição de
+        Ensino em um único lugar!</p>
+    <form [formGroup]="form" class="d-flex flex-column h-75 row-gap-1">
+        <label class="input-label unselectable">Nome completo</label>
+        <input formControlName="name" class="text-input form-control" type="text">
+        <div class="error" *ngIf="form.get('name')!.invalid && (form.get('name')!.dirty || form.get('name')!.touched)">
+            <div *ngIf="form.get('name')!.errors?.['required']">Nome é obrigatório</div>
+        </div>
+
+        <label class="input-label unselectable">E-mail para acesso</label>
+        <input formControlName="email" class="text-input form-control">
+        <div class="error"
+            *ngIf="form.get('email')!.invalid && (form.get('email')!.dirty || form.get('email')!.touched)">
+            <div *ngIf="form.get('email')!.errors?.['required']">E-mail é obrigatório</div>
+            <div *ngIf="form.get('email')!.errors?.['email']">E-mail não é um e-mail válido</div>
+        </div>
+
+        <label class="input-label unselectable">Senha</label>
+        <input formControlName="password" class="text-input form-control" type="password">
+        <div class="error"
+            *ngIf="form.get('password')!.invalid && (form.get('password')!.dirty || form.get('password')!.touched)">
+            <div *ngIf="form.get('password')!.errors?.['required']">Senha é obrigatório</div>
+        </div>
+
+        <label class="input-label unselectable">Número de telefone</label>
+        <input formControlName="phone" class="text-input form-control" type="tel">
+
+        <div class="d-flex flex-row justify-content-between align-items-end">
+            <div style="width: 48%;">
+                <label class="input-label unselectable">Tipo de documento</label>
+                <select formControlName="documentType" class="text-input form-control">
+                    <option value="CPF" selected>CPF</option>
+                    <option value="RG">RG</option>
+                </select>
+                <div class="error"
+                    *ngIf="form.get('password')!.invalid && (form.get('password')!.dirty || form.get('password')!.touched)">
+                    <div *ngIf="form.get('documentType')!.errors?.['required']">Tipo de documento é
+                        obrigatório</div>
+                </div>
+            </div>
+            <div style="width: 48%;">
+                <label class="input-label unselectable">Documento</label>
+                <input formControlName="document" class="text-input form-control">
+                <div class="error"
+                    *ngIf="form.get('password')!.invalid && (form.get('password')!.dirty || form.get('password')!.touched)">
+                    <div *ngIf="form.get('document')!.errors?.['required']">Documento é obrigatório
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between align-items-end">
+            <div style="width: 48%;">
+                <label class="input-label unselectable">Gênero</label>
+                <select formControlName="gender" class="text-input form-control">
+                    <option value="M" selected>Masculino</option>
+                    <option value="F">Feminino</option>
+                    <option value="O">Outro</option>
+                </select>
+            </div>
+            <div style="width: 48%;">
+                <label class="input-label unselectable">Data de Nascimento</label>
+                <input formControlName="birthDate" class="text-input form-control" type="date">
+                <div class="error"
+                    *ngIf="form.get('password')!.invalid && (form.get('password')!.dirty || form.get('password')!.touched)">
+                    <div *ngIf="form.get('document')!.errors?.['required']">Número de documento é obrigatório
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mt-4">
+            <button class="form-control filled-entry-button" [disabled]="form.invalid || processing"
+                (click)="register()">Finalizar cadastro</button>
+        </div>
+    </form>
+</div>

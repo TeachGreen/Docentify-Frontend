@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar" style="background-color: #FFFFFF;" *ngIf="!hiddenMenuRoutes.includes(router.url)">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar" style="background-color: #FFFFFF;" *ngIf="!router.url.includes('authentication') && !router.url.includes('institution')">
     <div class="container-fluid">
-        <a routerLink="home" routerLinkActive="active" class="navbar-brand" draggable="false">
-            <svg class="unselectable"  width="108" height="33" viewBox="0 0 108 33" fill="none" xmlns="http://www.w3.org/2000/svg" routerLink="home" >
+        <a routerLink="student/home" routerLinkActive="active" class="navbar-brand" draggable="false">
+            <svg class="unselectable"  width="108" height="33" viewBox="0 0 108 33" fill="none" xmlns="http://www.w3.org/2000/svg" routerLink="student/home" >
                 <path
                     d="M65.8951 23.4817H62.3466V14.9359C62.3466 13.2975 61.6259 12.4783 60.1843 12.4783C58.8906 12.4783 57.9296 13.102 57.3012 14.3494V23.4817H53.7529V13.3999C53.7529 11.6311 53.3001 10.6351 52.3945 10.4117V9.99275H57.024L57.0795 11.5567C58.059 10.3093 59.4267 9.68555 61.1823 9.68555C62.5499 9.68555 63.6403 10.0765 64.4535 10.8585C65.4145 11.7708 65.8951 13.1299 65.8951 14.9359V23.4817Z"
                     fill="#06A5B8" />
@@ -73,14 +73,14 @@
             <div class="d-flex col-12 me-auto">
                 <ul class="d-flex navbar-nav mb-2 mb-lg-0 col-12 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link active unselectable" draggable="false" routerLink="home" routerLinkActive="active"
+                        <a class="nav-link active unselectable" draggable="false" routerLink="student/home" routerLinkActive="active"
                             aria-current="page">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link unselectable" draggable="false" routerLink="treinamentos" routerLinkActive="active">Treinamentos</a>
+                        <a class="nav-link unselectable" draggable="false" routerLink="student/treinamentos" routerLinkActive="active">Treinamentos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link unselectable" draggable="false" routerLink="ranking" routerLinkActive="active">Ranking</a>
+                        <a class="nav-link unselectable" draggable="false" routerLink="student/ranking" routerLinkActive="active">Ranking</a>
                     </li>
                     <li class="nav-item mobile-item">
                         <a class="nav-link unselectable" draggable="false" href="#">Meu perfil</a>
@@ -107,7 +107,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item unselectable" routerLink="perfil" routerLinkActive="active" draggable="false">
+                                    <a class="dropdown-item unselectable" routerLink="student/perfil" routerLinkActive="active" draggable="false">
                                         <i class="ph-bold ph-user"></i>
                                         Meu Perfil
                                     </a>
@@ -132,7 +132,7 @@
 
 <router-outlet></router-outlet>
 
-<footer id="footer" class="d-flex flex-row justify-content-between mt-3 justify-content-between align-items-center p-3" *ngIf="!hiddenMenuRoutes.includes(router.url)">
+<footer id="footer" class="d-flex flex-row justify-content-between mt-3 justify-content-between align-items-center p-3" *ngIf="!router.url.includes('authentication')">
     <span class="unselectable" draggable="false">© 2024 Docentify. Todos os direitos reservados.</span>
     <div class="d-flex flex-row justify-content-around" style="width: 5vw">
         <a id="socials-logo">

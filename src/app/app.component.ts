@@ -10,7 +10,6 @@ import { environment } from './environment';
 })
 export class AppComponent {
   title = 'DocentifyFrontend';
-  hiddenMenuRoutes = ['/login', '/registration', '/recuperacao-senha', '/confirmacao-identidade', '/nova-senha'];
 
   @ViewChild('searchBar') searchBar: any;
 
@@ -19,11 +18,11 @@ export class AppComponent {
   }
 
   search() {
-    this.router.navigate(['/treinamentos'], { queryParams: { 'search': this.searchBar.nativeElement.value } });
+    this.router.navigate(['/student/treinamentos'], { queryParams: { 'search': this.searchBar.nativeElement.value } });
   }
 
   deslogar() {
     localStorage.clear();
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/authentication');
   }
 }
