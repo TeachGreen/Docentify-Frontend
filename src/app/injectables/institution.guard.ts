@@ -4,17 +4,16 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable()
-export class AuthGuard implements CanActivateChild {
+export class InstitutionGuard implements CanActivateChild {
   constructor(private router: Router, public jwtHelper: JwtHelperService) {}
 
   canActivateChild() {
-    const token = localStorage.getItem('jwt');
+    const type = localStorage.getItem('userType');
 
-    if (!this.jwtHelper.isTokenExpired(token)) {
+    if (type === 'institution') {
       return true;
     }
 
-    this.router.navigate(['/authentication']);
     return false;
   }
 }

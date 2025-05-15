@@ -1,0 +1,13 @@
+<div class="d-flex flex-column">
+    <h2 class="section-title unselectable">Bem-vindo(a)!</h2>
+    <p class="section-description unselectable">Você é aluno ou instituição?</p>
+    <form class="d-flex flex-column h-75 mt-3">
+        <div class="d-flex flex-column align-items-center mt-4">
+            <button class="form-control filled-entry-button"
+                routerLink="/authentication/login/student" routerLinkActive>Aluno</button>
+            <span class="section-description my-2 unselectable">ou</span>
+            <button class="form-control unfilled-entry-button" routerLink="/authentication/login/institution"
+                routerLinkActive="active">Instituição</button>
+        </div>
+    </form>
+</div>

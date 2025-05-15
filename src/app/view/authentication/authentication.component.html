@@ -1,0 +1,14 @@
+<div id="entry-container" class="d-flex flex-row col-12 justify-content-end">
+    <div id="entry-form" class="col-12 col-md-7 d-flex flex-column align-items-center">
+        <div class="svg-div">
+            <a routerLink="/authentication/login" routerLinkActive="active">
+                <img id="docentify-entry-logo" class="unselectable" draggable="false"
+                    src="../../../assets/docentify_entry_logo.svg">
+            </a>
+        </div>
+
+        <div style="width: 100%;">
+            <router-outlet (activate)="onOutletLoaded($event)"></router-outlet>
+        </div>
+    </div>
+</div>
