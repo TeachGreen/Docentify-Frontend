@@ -1,0 +1,30 @@
+<div class="step-page-wrapper container py-4">
+  <h2>Associar aluno à instituição</h2>
+
+  <form [formGroup]="form" (ngSubmit)="associate()" class="row g-3 mt-3">
+    <div class="col-md-6">
+      <label for="document" class="form-label">Documento do aluno</label>
+      <input
+        type="text"
+        id="document"
+        class="form-control"
+        formControlName="document"
+        placeholder="Digite o CPF ou documento do aluno"
+      />
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end">
+      <button type="submit" class="btn btn-success w-100" [disabled]="loading">
+        {{ loading ? 'Associando...' : 'Associar' }}
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+</div>

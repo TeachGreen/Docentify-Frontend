@@ -26,6 +26,7 @@ import { GuestGuard } from './injectables/guest.guard';
 import { StepComponent } from './view/institution/step/step.component';
 import { StepPageComponent } from './view/institution/step-page/step-page.component';
 import { InstitutionLayoutComponent } from './view/institution/institution-layout/institution-layout.component';
+import { AssociateStudentComponent } from './view/institution/associate-student/associate-student.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,8 @@ const routes: Routes = [
          children: [
           { path: '', redirectTo: 'home', pathMatch: 'full' },
           { path: 'home', component: HomeComponent, title: 'Página Inicial - Docentify' },
-          { path: 'step', component: StepPageComponent, title: 'Trilha de criação - Docentify' }
+          { path: 'step', component: StepPageComponent, title: 'Trilha de criação - Docentify' },
+          { path: 'associatestudent', component: AssociateStudentComponent, title: 'Trilha de criação - Docentify' }
 
          
         ]
