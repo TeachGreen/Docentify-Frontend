@@ -67,27 +67,51 @@
         <p *ngIf="arquivosDaEtapaSelecionada.length === 0" class="text-muted">Nenhum conteúdo adicionado.</p>
       </div>
 
-      <!-- Etapa 1 -->
-      <div *ngSwitchCase="1">
-        <h6>Adicionar vídeo (via URL do YouTube)</h6>
-        <label class="form-label">URL do vídeo:</label>
-        <input
-          type="text"
-          class="form-control mb-2"
-          [(ngModel)]="youtubeUrl"
-          placeholder="https://youtube.com/..." />
-        <button class="btn btn-primary" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
+     <!-- Etapa 1: Envio de vídeos -->
+<div *ngSwitchCase="1">
+  <h6>Adicionar vídeos do YouTube</h6>
 
-        <div *ngIf="arquivosDaEtapaSelecionada.length > 0" class="mt-3">
-          <h6>Vídeos adicionados:</h6>
-          <ul>
-            <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
-              {{ file.name }}
-              <button *ngIf="editMode" class="btn btn-sm btn-danger ms-2" (click)="removerArquivo(i)">Remover</button>
-            </li>
-          </ul>
-        </div>
-      </div>
+  <div class="mb-3">
+    <label class="form-label">Título do vídeo:</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="videoTitulo"
+      placeholder="Ex: Introdução ao Módulo 1"
+      name="videoTitulo"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">URL do vídeo (YouTube):</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="youtubeUrl"
+      placeholder="https://youtube.com/..."
+      name="youtubeUrl"
+    />
+  </div>
+
+  <button class="btn btn-primary mb-3" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
+
+  <div *ngIf="arquivosDaEtapaSelecionada.length > 0">
+    <h6>Vídeos adicionados:</h6>
+    <ul>
+      <li *ngFor="let video of arquivosDaEtapaSelecionada; let i = index">
+        <strong>{{ video.title }}</strong> — 
+        <a [href]="video.content" target="_blank">{{ video.content }}</a>
+        <button
+          *ngIf="editMode"
+          class="btn btn-sm btn-danger ms-2"
+          (click)="removerArquivo(i)">
+          Remover
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
 
       <!-- Etapa 2 -->
       <div *ngSwitchCase="2">
