@@ -17,7 +17,7 @@ export class StepPageComponent {
   userSteps = [
     { label: 'Adicionar conteúdos de leitura', completed: false },
     { label: 'Adicionar vídeos', completed: false },
-    { label: 'Adicionar atividades', completed: false },
+    { label: 'Adicionar tarefas', completed: false },
     { label: 'Quiz de avaliação final', completed: false },
     { label: 'Adicionar certificado', completed: false }
   ];

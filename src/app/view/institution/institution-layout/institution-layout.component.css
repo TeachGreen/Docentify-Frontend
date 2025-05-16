@@ -1,0 +1,74 @@
+/* Botão hambúrguer - permanece transparente */
+.hamburger-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1100;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: transparent; /* mantém transparente */
+  padding: 60px 20px 20px 20px;   /* ⬅ aumenta o padding-top para descer os itens */
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  position: fixed;
+  height: 100%;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sidebar li.active {
+  color: #28a745;
+}
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 220px;
+  padding: 24px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:not(.open) ~ .main-content {
+  margin-left: 0;
+}
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1; /* faz o conteúdo ocupar o espaço restante */
+  margin-left: 220px; /* se sua sidebar tiver essa largura */
+  padding: 24px;
+}
+
+.footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+  color: #666;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}

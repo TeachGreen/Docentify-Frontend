@@ -20,3 +20,13 @@ input[type="file"] {
 button.btn {
   margin-top: 12px;
 }
+.btn-editar-verde {
+  background-color: #5ca14f; /* ajuste para o tom exato da sua plataforma */
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-editar-verde:hover {
+  background-color: #4b8b41;
+}

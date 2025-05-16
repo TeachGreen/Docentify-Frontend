@@ -1,0 +1,15 @@
+<div class="layout-wrapper">
+  <button class="hamburger-btn" (click)="toggleSidebar()">☰</button>
+
+  <nav class="sidebar" [class.open]="sidebarOpen">
+    <ul>
+      <li routerLink="/institution/home" routerLinkActive="active">Gerenciar Cursos</li>
+      <li routerLink="/institution/step" routerLinkActive="active">Trilha de Criação</li>
+    </ul>
+  </nav>
+
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
