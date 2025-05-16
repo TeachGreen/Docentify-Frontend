@@ -1,32 +1,163 @@
- .step-page-wrapper {
+/* Área principal da página */
+.step-page-wrapper {
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 16px;
 }
 
+/* Títulos principais */
 .step-page-wrapper h2 {
   margin-bottom: 24px;
 }
 
-.step-page-wrapper h4 {
+.step-page-wrapper h4,
+.step-page-wrapper h5 {
   margin-top: 32px;
   margin-bottom: 12px;
 }
 
+/* Inputs de upload */
 input[type="file"] {
   margin-top: 8px;
 }
 
+/* Espaçamento padrão para botões */
 button.btn {
   margin-top: 12px;
 }
+
+/* Botão verde de edição */
 .btn-editar-verde {
-  background-color: #5ca14f; /* ajuste para o tom exato da sua plataforma */
+  background-color: #65c23a;
   color: white;
   border: none;
   transition: background-color 0.3s ease;
 }
 
 .btn-editar-verde:hover {
-  background-color: #4b8b41;
+  background-color: #58ad31;
+}
+
+/* Botão verde claro */
+button.btn-success {
+  background-color: #65c23a;
+  border: none;
+}
+
+button.btn-success:hover {
+  background-color: #58ad31;
+}
+
+/* Botão de borda verde */
+button.btn-outline-primary {
+  border-color: #65c23a;
+  color: #65c23a;
+}
+
+button.btn-outline-primary:hover {
+  background-color: #65c23a;
+  color: white;
+}
+
+/* Tabela responsiva e limpa */
+.table {
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+.btn-filtrar {
+  background-color: #90D947;
+  border-color: #90D947;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-filtrar:hover {
+  background-color: #5F9C22;
+  border-color: #5F9C22;
+}
+/* Centralização e estilo da página */
+.step-page-wrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Títulos */
+.step-page-wrapper h2 {
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Tabela */
+.table th,
+.table td {
+  vertical-align: middle;
+  padding: 12px 16px;
+}
+
+/* Inputs e Selects */
+.step-page-wrapper input[type="text"],
+.step-page-wrapper select {
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+/* Botão de buscar */
+.step-page-wrapper .btn-buscar {
+  background-color: #97e042;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  height: 40px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.step-page-wrapper .btn-buscar:hover {
+  background-color: #82c834;
+}
+
+/* Botão Selecionar */
+.step-page-wrapper .btn-selecionar {
+  border: 2px solid #97e042;
+  color: #5ca14f;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  background-color: transparent;
+}
+
+.step-page-wrapper .btn-selecionar:hover {
+  background-color: #97e042;
+  color: white;
+}
+
+/* Responsividade filtros */
+.step-page-wrapper .filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.step-page-wrapper .filtros input,
+.step-page-wrapper .filtros select {
+  max-width: 300px;
+}
+
+.step-page-wrapper table {
+  margin-top: 10px;
 }

@@ -35,4 +35,11 @@ export class CourseService {
   deleteCourse(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/Courses/${id}`);
   }
+
+// course.service.ts
+getAll(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/course`);
+}
+
+
 }

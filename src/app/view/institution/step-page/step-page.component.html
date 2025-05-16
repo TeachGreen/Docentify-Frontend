@@ -1,127 +1,131 @@
 <div class="step-page-wrapper container py-4">
   <h2>Trilha de criação de curso</h2>
 
-  <app-step
-    [steps]="userSteps"
-    (stepClick)="onStepClick($event)">
-  </app-step>
+  <!-- Formulário de filtros -->
+  <form [formGroup]="filterForm" (ngSubmit)="onFilter()" class="d-flex gap-2 mb-4 flex-wrap">
+    <input
+      type="text"
+      formControlName="name"
+      class="form-control"
+      placeholder="Nome do Curso"
+      style="max-width: 300px;" />
 
-  <!-- Botão global de edição -->
-  <div class="d-flex gap-2 my-3">
-    <button class="btn btn-editar-verde my-3" (click)="toggleEditMode()">
-      {{ editMode ? 'Concluir edição' : 'Editar etapa' }}
-    </button>
+    <select formControlName="isRequired" class="form-select" style="max-width: 200px;">
+      <option value="">Obrigatório?</option>
+      <option value="true">Sim</option>
+      <option value="false">Não</option>
+    </select>
 
-    <button
-      *ngIf="editMode"
-      class="btn btn-success"
-      (click)="atualizarEtapa()">
-      Salvar alterações
-    </button>
-  </div>
+    <button class="btn btn-success px-4" type="submit">Filtrar</button>
+  </form>
 
-  <!-- Etapa 0: Conteúdo em PDF -->
-  <div *ngIf="selectedStepIndex === 0">
-    <h4>Envio de conteúdo em PDF</h4>
-    <input type="file" accept=".pdf" multiple (change)="onFileUpload($event)" />
-
-    <div class="mt-3">
-      <h6>Arquivos enviados:</h6>
-      <ul *ngIf="arquivosDaEtapaSelecionada.length > 0; else nenhumArquivo">
-        <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
-          {{ file.name }}
-          <button
-            *ngIf="editMode"
-            class="btn btn-sm btn-danger ms-2"
-            (click)="removerArquivo(i)">
-            Remover
+  <!-- Tabela de cursos -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Obrigatório</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let curso of cursos">
+        <td>{{ curso.name }}</td>
+        <td>{{ curso.isRequired ? 'Sim' : 'Não' }}</td>
+        <td>
+          <button class="btn btn-outline-success btn-sm" (click)="selecionarCurso(curso)">
+            Selecionar
           </button>
-        </li>
-      </ul>
-      <ng-template #nenhumArquivo>
-        <p class="text-muted">Nenhum arquivo enviado ainda.</p>
-      </ng-template>
-    </div>
-  </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-  <!-- Etapa 1: Vídeos -->
-  <div *ngIf="selectedStepIndex === 1">
-    <h4>Envio de vídeos</h4>
-    <input type="file" accept="video/*" (change)="onFileUpload($event)" />
+  <!-- Etapas do curso selecionado -->
+  <div *ngIf="cursoSelecionado">
+    <h4 class="mt-5">Etapas do curso: {{ cursoSelecionado.name }}</h4>
 
+    <app-step [steps]="userSteps" (stepClick)="onStepClick($event)"></app-step>
+
+    <!-- Ações -->
     <div class="my-3">
-      <label for="youtubeUrl">Ou insira uma URL do YouTube:</label>
-      <input
-        id="youtubeUrl"
-        type="text"
-        class="form-control my-2"
-        placeholder="https://youtube.com/..."
-        [(ngModel)]="youtubeUrl" />
-      <button class="btn btn-primary" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
+      <button class="btn btn-success me-2" (click)="toggleEditMode()">
+        {{ editMode ? 'Concluir edição' : 'Editar etapa' }}
+      </button>
+      <button *ngIf="editMode" class="btn btn-outline-primary" (click)="atualizarEtapa()">
+        Atualizar etapa
+      </button>
     </div>
 
-    <div class="mt-3" *ngIf="arquivosDaEtapaSelecionada.length > 0">
-      <h6>Vídeos enviados:</h6>
-      <ul>
-        <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
-          {{ file.name }}
-          <button
-            *ngIf="editMode"
-            class="btn btn-sm btn-danger ms-2"
-            (click)="removerArquivo(i)">
-            Remover
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
+    <!-- Conteúdo por etapa -->
+    <ng-container [ngSwitch]="selectedStepIndex">
+      <!-- Etapa 0 -->
+      <div *ngSwitchCase="0">
+        <h6>Envio de conteúdo em PDF</h6>
+        <input type="file" accept=".pdf" multiple (change)="onFileUpload($event)" />
 
-  <!-- Etapa 2: Atividades -->
-  <div *ngIf="selectedStepIndex === 2">
-    <h4>Envio de tarefas (PDF)</h4>
-    <input type="file" accept=".pdf" (change)="onFileUpload($event)" />
+        <div class="mt-3">
+          <h6>Arquivos enviados:</h6>
+          <ul *ngIf="arquivosDaEtapaSelecionada.length > 0; else nenhumArquivo">
+            <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
+              {{ file.name }}
+              <button *ngIf="editMode" class="btn btn-sm btn-danger ms-2" (click)="removerArquivo(i)">Remover</button>
+            </li>
+          </ul>
+          <ng-template #nenhumArquivo>
+            <p class="text-muted">Nenhum arquivo enviado.</p>
+          </ng-template>
+        </div>
+      </div>
 
-    <div class="mt-3" *ngIf="arquivosDaEtapaSelecionada.length > 0">
-      <h6>Arquivos enviados:</h6>
-      <ul>
-        <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
-          {{ file.name }}
-          <button
-            *ngIf="editMode"
-            class="btn btn-sm btn-danger ms-2"
-            (click)="removerArquivo(i)">
-            Remover
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <!-- Etapa 1 -->
+      <div *ngSwitchCase="1">
+        <h6>Envio de vídeos</h6>
+        <input type="file" accept="video/*" (change)="onFileUpload($event)" />
 
-  <!-- Etapa 3: Quiz -->
-  <div *ngIf="selectedStepIndex === 3">
-    <h4>Criação de quiz de avaliação</h4>
-    <p>Você poderá adicionar até 20 perguntas com até 4 alternativas cada.</p>
-    <button class="btn btn-primary">Criar Quiz</button>
-  </div>
+        <div class="my-3">
+          <label class="form-label">Ou insira uma URL do YouTube:</label>
+          <input
+            type="text"
+            class="form-control mb-2"
+            [(ngModel)]="youtubeUrl"
+            placeholder="https://youtube.com/..." />
+          <button class="btn btn-primary" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
+        </div>
 
-  <!-- Etapa 4: Certificado -->
-  <div *ngIf="selectedStepIndex === 4">
-    <h4>Envio de modelo de certificado (PDF)</h4>
-    <input type="file" accept=".pdf" (change)="onFileUpload($event)" />
+        <div *ngIf="arquivosDaEtapaSelecionada.length > 0" class="mt-3">
+          <h6>Vídeos adicionados:</h6>
+          <ul>
+            <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
+              {{ file.name }}
+              <button *ngIf="editMode" class="btn btn-sm btn-danger ms-2" (click)="removerArquivo(i)">Remover</button>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-    <div class="mt-3" *ngIf="arquivosDaEtapaSelecionada.length > 0">
-      <h6>Certificado enviado:</h6>
-      <ul>
-        <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
-          {{ file.name }}
-          <button
-            *ngIf="editMode"
-            class="btn btn-sm btn-danger ms-2"
-            (click)="removerArquivo(i)">
-            Remover
-          </button>
-        </li>
-      </ul>
-    </div>
+      <!-- Etapa 2 -->
+      <div *ngSwitchCase="2">
+        <h6>Envio de tarefas (PDF)</h6>
+        <input type="file" accept=".pdf" (change)="onFileUpload($event)" />
+
+        <div class="mt-3" *ngIf="arquivosDaEtapaSelecionada.length > 0">
+          <h6>Arquivos enviados:</h6>
+          <ul>
+            <li *ngFor="let file of arquivosDaEtapaSelecionada; let i = index">
+              {{ file.name }}
+              <button *ngIf="editMode" class="btn btn-sm btn-danger ms-2" (click)="removerArquivo(i)">Remover</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Etapa 3 -->
+      <div *ngSwitchCase="3">
+        <h6>Criação de quiz de avaliação</h6>
+        <p>Você poderá adicionar até 20 perguntas com até 4 alternativas cada.</p>
+        <button class="btn btn-primary">Criar Quiz</button>
+      </div>
+    </ng-container>
   </div>
 </div>
