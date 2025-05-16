@@ -64,15 +64,15 @@
                 {{step.title}}
             </a>
             <a *ngIf="course.isEnrolled && step.type === 1"
-                [routerLink]="['/treinamento', course.id, 'leitura', step.id]" routerLinkActive="active">
+                [routerLink]="['/student/treinamento', course.id, 'leitura', step.id]" routerLinkActive="active">
                 {{step.title}}
             </a>
             <a *ngIf="course.isEnrolled && step.type === 2"
-                [routerLink]="['/treinamento', course.id, 'video', step.id]" routerLinkActive="active">
+                [routerLink]="['/student/treinamento', course.id, 'video', step.id]" routerLinkActive="active">
                 {{step.title}}
             </a>
             <a *ngIf="course.isEnrolled && step.type === 3"
-                [routerLink]="['/treinamento', course.id, 'descricao-atividade', step.id]" routerLinkActive="active">
+                [routerLink]="['/student/treinamento', course.id, 'descricao-atividade', step.id]" routerLinkActive="active">
                 {{step.title}}
             </a>
         </div>
