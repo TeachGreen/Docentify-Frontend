@@ -1,0 +1,22 @@
+ .step-page-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.step-page-wrapper h2 {
+  margin-bottom: 24px;
+}
+
+.step-page-wrapper h4 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}
+
+button.btn {
+  margin-top: 12px;
+}

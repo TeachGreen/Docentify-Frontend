@@ -1,5 +1,6 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,9 +23,12 @@ import { RequestPasswordChangeComponent } from './view/authentication/request-pa
 import { StudentGuard } from './injectables/student.guard';
 import { InstitutionGuard } from './injectables/institution.guard';
 import { StudentModule } from './view/student/student.module';
-import { InstitutionHomeComponent } from './view/institution/home/home.component';
 import { InstitutionModule } from './view/institution/institution.module';
+
+
 import { GuestGuard } from './injectables/guest.guard';
+
+
 
 
 @NgModule({

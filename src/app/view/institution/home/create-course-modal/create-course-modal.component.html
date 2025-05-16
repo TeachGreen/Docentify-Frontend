@@ -1,0 +1,52 @@
+<div class="card mt-4 shadow-sm">
+  <div class="card-header bg-light">
+    <h4 class="fw-bold mb-3">{{ course ? 'Editar Curso' : 'Novo Curso' }}</h4>
+
+  </div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Nome do curso a ser criado -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Nome do Curso</label>
+        <input id="name" type="text" class="form-control" formControlName="name" placeholder="Digite o nome do curso" />
+      </div>
+
+      <!-- Descrição -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Descrição</label>
+        <textarea id="description" class="form-control" rows="4" formControlName="description" placeholder="Descreva o conteúdo do curso"></textarea>
+      </div>
+      <div class="mb-3">
+  <label for="duration" class="form-label">Duração do Curso (horas)</label>
+  <input
+    type="text"
+    id="duration"
+    class="form-control"
+    formControlName="duration"
+    placeholder="Ex: 20h"
+  />
+</div>
+
+        <div class="mb-3">
+          <label for="isRequired" class="form-label">Este curso é obrigatório?</label>
+          <select
+            class="form-select"
+            id="isRequired"
+            formControlName="isRequired"
+            required
+          >
+            <option value="">Selecione uma opção</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+
+
+      <!-- Ações -->
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" class="btn btn-salvar-curso">Salvar</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

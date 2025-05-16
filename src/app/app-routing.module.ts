@@ -21,8 +21,10 @@ import { ActivityStepDescriptionComponent } from './view/student/course/activity
 import { ActivityStepComponent } from './view/student/course/activity-step/activity-step.component';
 import { RankingComponent } from './view/student/ranking/ranking.component';
 import { ProfileComponent } from './view/student/profile/profile.component';
-import { InstitutionHomeComponent } from './view/institution/home/home.component';
+import { HomeComponent } from './view/institution/home/home.component';
 import { GuestGuard } from './injectables/guest.guard';
+import { StepComponent } from './view/institution/step/step.component';
+import { StepPageComponent } from './view/institution/step-page/step-page.component';
 
 const routes: Routes = [
   {
@@ -46,7 +48,10 @@ const routes: Routes = [
       {
         path: 'institution', canActivateChild: [InstitutionGuard], children: [
           { path: '', redirectTo: 'home', pathMatch: 'full' },
-          { path: 'home', component: InstitutionHomeComponent, title: 'Página Inicial - Docentify' },
+          { path: 'home', component: HomeComponent, title: 'Página Inicial - Docentify' },
+          { path: 'step', component: StepPageComponent, title: 'Trilha de criação - Docentify' }
+
+         
         ]
       },
       {

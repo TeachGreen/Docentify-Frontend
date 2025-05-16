@@ -1,1 +1,56 @@
-<p>home works!</p>
+<div class="container mt-4">
+  <h2>Gerenciar Cursos</h2>
+
+  <!-- Filtros -->
+  <form class="row g-3 mb-3" [formGroup]="filterForm" (ngSubmit)="onFilter()">
+    <div class="col-md-6">
+      <input type="text" class="form-control" formControlName="name" placeholder="Nome do Curso" />
+    </div>
+
+    <div class="col-md-2">
+      <select class="form-select" formControlName="isRequired">
+        <option value="">Obrigatório?</option>
+        <option [value]="true">Sim</option>
+        <option [value]="false">Não</option>
+      </select>
+    </div>
+
+
+
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-filtrar" (click)="onFilter()">Filtrar</button>
+    </div>
+  </form>
+
+  <!-- Botão de novo curso -->
+  <div class="mb-3">
+   <button class="btn-novo-curso" (click)="openCreateModal()">+ Novo Curso</button>
+
+  </div>
+
+  <!-- Tabela de cursos -->
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Obrigatório</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let course of courses">
+        <td>{{ course.name }}</td>
+        <td>{{ course.isRequired ? 'Sim' : 'Não' }}</td>
+        
+        <td>
+          <button class="btn btn-sm btn-primary me-1" (click)="editCourse(course)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteCourse(course)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--  Modal de criação de curso -->
+<app-create-course-modal *ngIf="showModal"   [course]="selectedCourse" (closed)="showModal = false" (created)="loadCourses()"  ></app-create-course-modal>
+

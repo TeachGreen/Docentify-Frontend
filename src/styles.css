@@ -72,7 +72,7 @@ body {
 
     margin-left: -32px !important;
 
-    background-color: #06A5B8;
+    background-color: #90D947;
     color: #FFFFFF;
     border: none;
     display: flex;
@@ -279,3 +279,44 @@ body {
 
     border-radius: 4px;
 }
+.btn-novo-curso {
+  background-color: #90D947; 
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-novo-curso:hover {
+  background-color: #5F9C22;
+  transition: background-color 0.3s ease;
+}
+
+.btn-salvar-curso {
+  background-color: #90D947;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-salvar-curso:hover {
+  background-color: #5F9C22;
+  transition: background-color 0.3s ease;
+}
+.btn-filtrar {
+  background-color: #90D947;
+  border-color: #90D947;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-filtrar:hover {
+  background-color: #5F9C22;
+  border-color: #5F9C22;
+}
+

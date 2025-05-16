@@ -1,0 +1,19 @@
+<div class="step-container">
+  <ng-container *ngFor="let step of steps; let i = index">
+    <div
+      class="step-box"
+      [class.completed]="step.completed"
+      (click)="stepClick.emit(i)"
+    >
+      <div
+        class="step-circle"
+        [class.green]="step.completed"
+      >
+        {{ step.completed ? '✔' : i + 1 }}
+      </div>
+      <div class="step-label">{{ step.label }}</div>
+    </div>
+
+    <div *ngIf="i < steps.length - 1" class="step-arrow">→</div>
+  </ng-container>
+</div>
