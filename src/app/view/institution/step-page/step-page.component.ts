@@ -5,6 +5,23 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { environment } from '../../../environment';
 import { httpOptions } from '../../../config/httpOptions';
 
+interface StepData {
+  title: string;
+  content: string;
+  id?: number;
+  description?: string;
+}
+
+interface QuizPergunta {
+  statement: string;
+  activityId: number;
+  options: {
+    id?: number;
+    text: string;
+    isCorrect: boolean;
+  }[];
+}
+
 @Component({
   selector: 'app-step-page',
   templateUrl: './step-page.component.html',
@@ -14,19 +31,39 @@ export class StepPageComponent implements OnInit {
   filterForm!: FormGroup;
   cursos: any[] = [];
   cursoSelecionado: any = null;
+
   selectedStepIndex = 0;
   youtubeUrl = '';
   videoTitulo = '';
+  tarefaTitulo = '';
+  tarefaDescricao = '';
+  tarefaSelecionadaId: number | null = null;
+  tarefas: StepData[] = [];
+
   editMode = false;
 
-  uploadsPorEtapa: { [index: number]: { title: string; content: string }[] } = {};
+  uploadsPorEtapa: { [index: number]: StepData[] } = {};
   stepIds: { [index: number]: number } = {};
 
   userSteps = [
     { label: 'Adicionar conteúdos de leitura', completed: false },
     { label: 'Adicionar vídeos', completed: false },
-    { label: 'Tarefas', completed: false }
+    { label: 'Tarefas', completed: false },
+    { label: 'Criar quiz', completed: false }
   ];
+
+  novaPergunta = {
+    statement: '',
+    correctIndex: 0,
+    options: [
+      { text: '', isCorrect: false },
+      { text: '', isCorrect: false },
+      { text: '', isCorrect: false },
+      { text: '', isCorrect: false }
+    ]
+  };
+
+  quiz: QuizPergunta[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -70,6 +107,9 @@ export class StepPageComponent implements OnInit {
     this.selectedStepIndex = 0;
     this.uploadsPorEtapa = {};
     this.stepIds = {};
+    this.tarefas = [];
+    this.quiz = [];
+
     this.userSteps.forEach(s => s.completed = false);
 
     this.stepService.getStepsByCourse(curso.id).subscribe((steps: any[]) => {
@@ -77,16 +117,24 @@ export class StepPageComponent implements OnInit {
         const index = step.type - 1;
         if (!this.uploadsPorEtapa[index]) this.uploadsPorEtapa[index] = [];
 
-        this.uploadsPorEtapa[index].push({ title: step.title, content: step.content });
+        const stepData: StepData = {
+          title: step.title,
+          content: step.content,
+          id: step.id,
+          description: step.description
+        };
+
+        this.uploadsPorEtapa[index].push(stepData);
+        if (step.type === 3) this.tarefas.push(stepData);
         this.userSteps[index].completed = true;
         this.stepIds[index] = step.id;
       }
 
-      this.userSteps = [...this.userSteps]; // força detecção
+      this.userSteps = [...this.userSteps];
     });
   }
 
-  get arquivosDaEtapaSelecionada(): { title: string; content: string }[] {
+  get arquivosDaEtapaSelecionada(): StepData[] {
     return this.uploadsPorEtapa[this.selectedStepIndex] || [];
   }
 
@@ -98,30 +146,117 @@ export class StepPageComponent implements OnInit {
     this.selectedStepIndex = index;
   }
 
+  removerArquivo(index: number): void {
+    if (this.uploadsPorEtapa[this.selectedStepIndex]) {
+      this.uploadsPorEtapa[this.selectedStepIndex].splice(index, 1);
+    }
+  }
+
   adicionarVideoUrl(): void {
     const url = this.youtubeUrl.trim();
     const title = this.videoTitulo.trim();
-
     if (!url || !title) return;
 
-    const video = { title, content: url };
-
+    const novoVideo: StepData = { title, content: url };
     if (!this.uploadsPorEtapa[this.selectedStepIndex]) {
       this.uploadsPorEtapa[this.selectedStepIndex] = [];
     }
 
-    this.uploadsPorEtapa[this.selectedStepIndex].push(video);
-    this.createStepNaApi(video);
+    this.uploadsPorEtapa[this.selectedStepIndex].push(novoVideo);
+    this.createStepNaApi(novoVideo);
 
     this.marcarEtapaComoConcluida();
     this.youtubeUrl = '';
     this.videoTitulo = '';
   }
 
-  removerArquivo(index: number): void {
-    if (this.uploadsPorEtapa[this.selectedStepIndex]) {
-      this.uploadsPorEtapa[this.selectedStepIndex].splice(index, 1);
+  criarTarefa(): void {
+    const title = this.tarefaTitulo.trim();
+    const description = this.tarefaDescricao.trim();
+    if (!title || !description || !this.cursoSelecionado) return;
+
+    const payload = {
+      title,
+      description,
+      type: 3,
+      content: '',
+      courseId: this.cursoSelecionado.id
+    };
+
+    this.stepService.createStep(this.cursoSelecionado.id, payload).subscribe((res: any) => {
+      const tarefaCriada: StepData = { title, content: '', description, id: res.id };
+      this.tarefas.push(tarefaCriada);
+
+      if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
+      this.uploadsPorEtapa[2].push(tarefaCriada);
+
+      this.stepIds[2] = res.id;
+      this.marcarEtapaComoConcluida();
+      this.tarefaTitulo = '';
+      this.tarefaDescricao = '';
+    });
+  }
+
+  adicionarPergunta(): void {
+    if (
+      !this.novaPergunta.statement.trim() ||
+      this.novaPergunta.options.some(opt => !opt.text.trim()) ||
+      this.tarefaSelecionadaId === null
+    ) {
+      alert('Preencha todos os campos da pergunta e selecione uma tarefa.');
+      return;
     }
+
+    // Marca a alternativa correta
+    const options = this.novaPergunta.options.map((opt, index) => ({
+      text: opt.text,
+      isCorrect: index === this.novaPergunta.correctIndex
+    }));
+
+    const pergunta: QuizPergunta = {
+      statement: this.novaPergunta.statement,
+      activityId: this.tarefaSelecionadaId,
+      options
+    };
+
+    this.quiz.push(pergunta);
+
+    // Reset
+    this.novaPergunta = {
+      statement: '',
+      correctIndex: 0,
+      options: [
+        { text: '', isCorrect: false },
+        { text: '', isCorrect: false },
+        { text: '', isCorrect: false },
+        { text: '', isCorrect: false }
+      ]
+    };
+
+    alert('Pergunta adicionada com sucesso!');
+  }
+
+  salvarQuiz(): void {
+    if (!this.quiz.length || this.tarefaSelecionadaId === null) {
+      alert('Adicione perguntas e selecione uma tarefa.');
+      return;
+    }
+
+    const payload = {
+      tarefaId: this.tarefaSelecionadaId,
+      perguntas: this.quiz
+    };
+
+    this.http.post(`${environment.api}/quiz`, payload, httpOptions).subscribe({
+      next: () => {
+        alert('Quiz salvo com sucesso!');
+        this.quiz = [];
+        this.tarefaSelecionadaId = null;
+      },
+      error: () => {
+        alert('Erro ao salvar o quiz.');
+      }
+    });
   }
 
   atualizarEtapa(): void {
@@ -129,26 +264,29 @@ export class StepPageComponent implements OnInit {
     const stepId = this.stepIds[this.selectedStepIndex];
     if (!arquivos || arquivos.length === 0 || !stepId) return;
 
+    const { title, content, description } = arquivos[0];
+
     const payload = {
-      title: arquivos[0].title,
-      description: '',
+      title,
+      description: description ?? '',
       type: this.selectedStepIndex + 1,
-      content: arquivos[0].content,
+      content,
       courseId: this.cursoSelecionado.id
     };
 
-    this.stepService.updateStep(stepId, payload).subscribe();
-    this.editMode = false;
+    this.stepService.updateStep(stepId, payload).subscribe(() => {
+      this.editMode = false;
+    });
   }
 
-  private createStepNaApi(video: { title: string; content: string }): void {
+  private createStepNaApi(data: StepData): void {
     if (!this.cursoSelecionado) return;
 
     const payload = {
-      title: video.title,
-      description: '',
+      title: data.title,
+      description: data.description ?? '',
       type: this.selectedStepIndex + 1,
-      content: video.content,
+      content: data.content,
       courseId: this.cursoSelecionado.id
     };
 

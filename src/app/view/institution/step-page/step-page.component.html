@@ -1,21 +1,14 @@
 <div class="step-page-wrapper container py-4">
   <h2>Trilha de criação de curso</h2>
 
-  <!-- Formulário de filtros -->
+  <!-- Filtros -->
   <form [formGroup]="filterForm" (ngSubmit)="onFilter()" class="d-flex gap-2 mb-4 flex-wrap">
-    <input
-      type="text"
-      formControlName="name"
-      class="form-control"
-      placeholder="Nome do Curso"
-      style="max-width: 300px;" />
-
+    <input type="text" formControlName="name" class="form-control" placeholder="Nome do Curso" style="max-width: 300px;" />
     <select formControlName="isRequired" class="form-select" style="max-width: 200px;">
       <option value="">Obrigatório?</option>
       <option value="true">Sim</option>
       <option value="false">Não</option>
     </select>
-
     <button class="btn btn-success px-4" type="submit">Filtrar</button>
   </form>
 
@@ -32,34 +25,25 @@
       <tr *ngFor="let curso of cursos">
         <td>{{ curso.name }}</td>
         <td>{{ curso.isRequired ? 'Sim' : 'Não' }}</td>
-        <td>
-          <button class="btn btn-outline-success btn-sm" (click)="selecionarCurso(curso)">
-            Selecionar
-          </button>
-        </td>
+        <td><button class="btn btn-outline-success btn-sm" (click)="selecionarCurso(curso)">Selecionar</button></td>
       </tr>
     </tbody>
   </table>
 
-  <!-- Etapas do curso selecionado -->
+  <!-- Etapas -->
   <div *ngIf="cursoSelecionado">
     <h4 class="mt-5">Etapas do curso: {{ cursoSelecionado.name }}</h4>
 
     <app-step [steps]="userSteps" (stepClick)="onStepClick($event)"></app-step>
 
-    <!-- Ações -->
     <div class="my-3">
       <button class="btn btn-success me-2" (click)="toggleEditMode()">
         {{ editMode ? 'Concluir edição' : 'Editar etapa' }}
       </button>
-      <button *ngIf="editMode" class="btn btn-outline-primary" (click)="atualizarEtapa()">
-        Atualizar etapa
-      </button>
+      <button *ngIf="editMode" class="btn btn-outline-primary" (click)="atualizarEtapa()">Atualizar etapa</button>
     </div>
 
-    <!-- Conteúdo por etapa -->
     <ng-container [ngSwitch]="selectedStepIndex">
-
       <!-- Etapa 0 -->
       <div *ngSwitchCase="0">
         <h6>Conteúdo de leitura</h6>
@@ -67,64 +51,106 @@
         <p *ngIf="arquivosDaEtapaSelecionada.length === 0" class="text-muted">Nenhum conteúdo adicionado.</p>
       </div>
 
-     <!-- Etapa 1: Envio de vídeos -->
-<div *ngSwitchCase="1">
-  <h6>Adicionar vídeos do YouTube</h6>
+      <!-- Etapa 1 -->
+      <div *ngSwitchCase="1">
+        <h6>Adicionar vídeos do YouTube</h6>
+        <div class="mb-3">
+          <label class="form-label">Título do vídeo</label>
+          <input type="text" class="form-control mb-2" [(ngModel)]="videoTitulo" name="videoTitulo" />
+          <label class="form-label">URL do vídeo</label>
+          <input type="text" class="form-control mb-2" [(ngModel)]="youtubeUrl" name="youtubeUrl" />
+          <button class="btn btn-primary" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
+        </div>
 
-  <div class="mb-3">
-    <label class="form-label">Título do vídeo:</label>
-    <input
-      type="text"
-      class="form-control"
-      [(ngModel)]="videoTitulo"
-      placeholder="Ex: Introdução ao Módulo 1"
-      name="videoTitulo"
-    />
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label">URL do vídeo (YouTube):</label>
-    <input
-      type="text"
-      class="form-control"
-      [(ngModel)]="youtubeUrl"
-      placeholder="https://youtube.com/..."
-      name="youtubeUrl"
-    />
-  </div>
-
-  <button class="btn btn-primary mb-3" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
-
-  <div *ngIf="arquivosDaEtapaSelecionada.length > 0">
-    <h6>Vídeos adicionados:</h6>
-    <ul>
-      <li *ngFor="let video of arquivosDaEtapaSelecionada; let i = index">
-        <strong>{{ video.title }}</strong> — 
-        <a [href]="video.content" target="_blank">{{ video.content }}</a>
-        <button
-          *ngIf="editMode"
-          class="btn btn-sm btn-danger ms-2"
-          (click)="removerArquivo(i)">
-          Remover
-        </button>
-      </li>
-    </ul>
-  </div>
-</div>
-
+        <div *ngIf="arquivosDaEtapaSelecionada.length > 0">
+          <h6>Vídeos adicionados:</h6>
+          <ul class="list-group">
+            <li *ngFor="let video of arquivosDaEtapaSelecionada; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ video.title }}</strong><br />
+                <a [href]="video.content" target="_blank">{{ video.content }}</a>
+              </div>
+              <button *ngIf="editMode" class="btn btn-sm btn-danger" (click)="removerArquivo(i)">Remover</button>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <!-- Etapa 2 -->
       <div *ngSwitchCase="2">
-        <h6>Criação de tarefa</h6>
-        <p>Você pode criar uma atividade para o aluno resolver após os conteúdos.</p>
-        <button class="btn btn-primary">Criar Tarefa</button>
+        <h6>Criação de Tarefa</h6>
+        <form class="mb-3" (ngSubmit)="criarTarefa()">
+          <div class="mb-2">
+            <label class="form-label">Título</label>
+            <input type="text" class="form-control" [(ngModel)]="tarefaTitulo" name="tarefaTitulo" required />
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Descrição</label>
+            <textarea class="form-control" [(ngModel)]="tarefaDescricao" name="tarefaDescricao" rows="3" required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Salvar Tarefa</button>
+        </form>
+
+        <div *ngIf="tarefas.length > 0">
+          <h6>Tarefas criadas:</h6>
+          <ul class="list-group">
+            <li *ngFor="let tarefa of tarefas" class="list-group-item">
+              <strong>{{ tarefa.title }}</strong><br />
+              <small>{{ tarefa.description }}</small><br />
+              <small class="text-muted"><em>ID: {{ tarefa.id }}</em></small>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- Etapa 3 -->
       <div *ngSwitchCase="3">
-        <h6>Criação de quiz de avaliação</h6>
-        <p>Você poderá adicionar até 20 perguntas com até 4 alternativas cada.</p>
-        <button class="btn btn-primary">Criar Quiz</button>
+        <h6>Criação de Quiz</h6>
+
+        <div *ngIf="tarefas.length > 0; else semTarefa">
+          <label class="form-label">Associe a uma tarefa</label>
+          <select class="form-select mb-3" [(ngModel)]="tarefaSelecionadaId" name="tarefaSelecionadaId">
+            <option [ngValue]="null">Selecione</option>
+            <option *ngFor="let t of tarefas" [ngValue]="t.id">{{ t.title }}</option>
+          </select>
+
+          <div class="mb-3">
+            <label class="form-label">Enunciado da pergunta</label>
+            <input type="text" class="form-control" [(ngModel)]="novaPergunta.statement" name="novaPerguntaEnunciado" />
+
+            <label class="form-label mt-2">Alternativas</label>
+            <div *ngFor="let opt of novaPergunta.options; let i = index" class="input-group mb-2">
+              <span class="input-group-text">{{ ['A', 'B', 'C', 'D'][i] }}</span>
+              <input type="text" class="form-control" [(ngModel)]="opt.text" [name]="'optionText' + i" />
+              <div class="input-group-text">
+                <input type="radio" [(ngModel)]="novaPergunta.correctIndex" [value]="i" name="respostaCorreta" />
+              </div>
+            </div>
+
+            <button class="btn btn-primary mt-2" type="button" (click)="adicionarPergunta()">Adicionar Pergunta</button>
+          </div>
+
+          <div *ngIf="quiz.length > 0">
+            <h6>Perguntas adicionadas:</h6>
+            <ul class="list-group">
+              <li *ngFor="let q of quiz; let qi = index" class="list-group-item">
+                <strong>{{ q.statement }}</strong>
+                <ul>
+                  <li *ngFor="let opt of q.options; let j = index">
+                    {{ ['A', 'B', 'C', 'D'][j] }}. {{ opt.text }}
+                    <span *ngIf="opt.isCorrect" class="text-success fw-bold">(correta)</span>
+                  </li>
+                </ul>
+                <button class="btn btn-sm btn-outline-danger mt-2" (click)="quiz.splice(qi, 1)">Remover Pergunta</button>
+              </li>
+            </ul>
+            <button class="btn btn-success mt-3" (click)="salvarQuiz()">Salvar Quiz</button>
+          </div>
+        </div>
+
+        <ng-template #semTarefa>
+          <p class="text-muted">Você precisa criar uma tarefa antes de adicionar um quiz.</p>
+        </ng-template>
       </div>
     </ng-container>
   </div>
