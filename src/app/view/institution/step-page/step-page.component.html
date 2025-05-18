@@ -25,7 +25,9 @@
       <tr *ngFor="let curso of cursos">
         <td>{{ curso.name }}</td>
         <td>{{ curso.isRequired ? 'Sim' : 'Não' }}</td>
-        <td><button class="btn btn-outline-success btn-sm" (click)="selecionarCurso(curso)">Selecionar</button></td>
+        <td>
+          <button class="btn btn-outline-success btn-sm" (click)="selecionarCurso(curso)">Selecionar</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -56,9 +58,9 @@
         <h6>Adicionar vídeos do YouTube</h6>
         <div class="mb-3">
           <label class="form-label">Título do vídeo</label>
-          <input type="text" class="form-control mb-2" [(ngModel)]="videoTitulo" name="videoTitulo" />
+          <input type="text" class="form-control mb-2" [(ngModel)]="videoTitulo" name="videoTitulo" [ngModelOptions]="{ standalone: true }" />
           <label class="form-label">URL do vídeo</label>
-          <input type="text" class="form-control mb-2" [(ngModel)]="youtubeUrl" name="youtubeUrl" />
+          <input type="text" class="form-control mb-2" [(ngModel)]="youtubeUrl" name="youtubeUrl" [ngModelOptions]="{ standalone: true }" />
           <button class="btn btn-primary" (click)="adicionarVideoUrl()">Adicionar vídeo</button>
         </div>
 
@@ -82,11 +84,11 @@
         <form class="mb-3" (ngSubmit)="criarTarefa()">
           <div class="mb-2">
             <label class="form-label">Título</label>
-            <input type="text" class="form-control" [(ngModel)]="tarefaTitulo" name="tarefaTitulo" required />
+            <input type="text" class="form-control" [(ngModel)]="tarefaTitulo" name="tarefaTitulo" required [ngModelOptions]="{ standalone: true }" />
           </div>
           <div class="mb-2">
             <label class="form-label">Descrição</label>
-            <textarea class="form-control" [(ngModel)]="tarefaDescricao" name="tarefaDescricao" rows="3" required></textarea>
+            <textarea class="form-control" [(ngModel)]="tarefaDescricao" name="tarefaDescricao" rows="3" required [ngModelOptions]="{ standalone: true }"></textarea>
           </div>
           <button class="btn btn-primary" type="submit">Salvar Tarefa</button>
         </form>
@@ -109,19 +111,19 @@
 
         <div *ngIf="tarefas.length > 0; else semTarefa">
           <label class="form-label">Associe a uma tarefa</label>
-          <select class="form-select mb-3" [(ngModel)]="tarefaSelecionadaId" name="tarefaSelecionadaId">
+          <select class="form-select mb-3" [(ngModel)]="tarefaSelecionadaId" name="tarefaSelecionadaId" [ngModelOptions]="{ standalone: true }">
             <option [ngValue]="null">Selecione</option>
             <option *ngFor="let t of tarefas" [ngValue]="t.id">{{ t.title }}</option>
           </select>
 
           <div class="mb-3">
             <label class="form-label">Enunciado da pergunta</label>
-            <input type="text" class="form-control" [(ngModel)]="novaPergunta.statement" name="novaPerguntaEnunciado" />
+            <input type="text" class="form-control" [(ngModel)]="novaPergunta.statement" name="novaPerguntaEnunciado" [ngModelOptions]="{ standalone: true }" />
 
             <label class="form-label mt-2">Alternativas</label>
             <div *ngFor="let opt of novaPergunta.options; let i = index" class="input-group mb-2">
               <span class="input-group-text">{{ ['A', 'B', 'C', 'D'][i] }}</span>
-              <input type="text" class="form-control" [(ngModel)]="opt.text" [name]="'optionText' + i" />
+              <input type="text" class="form-control" [(ngModel)]="opt.text" [name]="'optionText' + i" [ngModelOptions]="{ standalone: true }" />
               <div class="input-group-text">
                 <input type="radio" [(ngModel)]="novaPergunta.correctIndex" [value]="i" name="respostaCorreta" />
               </div>

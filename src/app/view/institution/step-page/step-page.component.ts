@@ -109,7 +109,6 @@ export class StepPageComponent implements OnInit {
     this.stepIds = {};
     this.tarefas = [];
     this.quiz = [];
-
     this.userSteps.forEach(s => s.completed = false);
 
     this.stepService.getStepsByCourse(curso.id).subscribe((steps: any[]) => {
@@ -169,33 +168,68 @@ export class StepPageComponent implements OnInit {
     this.youtubeUrl = '';
     this.videoTitulo = '';
   }
-
-  criarTarefa(): void {
-    const title = this.tarefaTitulo.trim();
-    const description = this.tarefaDescricao.trim();
-    if (!title || !description || !this.cursoSelecionado) return;
-
-    const payload = {
-      title,
-      description,
-      type: 3,
-      content: '',
-      courseId: this.cursoSelecionado.id
-    };
-
-    this.stepService.createStep(this.cursoSelecionado.id, payload).subscribe((res: any) => {
-      const tarefaCriada: StepData = { title, content: '', description, id: res.id };
-      this.tarefas.push(tarefaCriada);
-
-      if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
-      this.uploadsPorEtapa[2].push(tarefaCriada);
-
-      this.stepIds[2] = res.id;
-      this.marcarEtapaComoConcluida();
-      this.tarefaTitulo = '';
-      this.tarefaDescricao = '';
-    });
+criarTarefa(): void {
+  const title = this.tarefaTitulo.trim();
+  const description = this.tarefaDescricao.trim();
+  if (!title || !description || !this.cursoSelecionado) {
+    alert('Preencha título e descrição da tarefa.');
+    return;
   }
+
+  const stepPayload = {
+    title,
+    description,
+    type: 3,
+    content: '',
+    courseId: this.cursoSelecionado.id
+  };
+
+  this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
+    next: (stepRes: any) => {
+      const stepId = stepRes?.id;
+      if (!stepId) {
+        alert('Erro ao criar step.');
+        return;
+      }
+
+      const activityPayload = {
+        name: title,
+        description,
+        isRequired: true,
+        maxGrade: 10
+      };
+
+      this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
+        next: (activityRes: any) => {
+          const tarefaCriada: StepData = {
+            title,
+            content: '',
+            id: activityRes?.id,
+            description
+          };
+
+          this.tarefas.push(tarefaCriada);
+          if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
+          this.uploadsPorEtapa[2].push(tarefaCriada);
+          this.stepIds[2] = stepId;
+
+          this.marcarEtapaComoConcluida();
+          this.tarefaTitulo = '';
+          this.tarefaDescricao = '';
+        },
+        error: (err) => {
+          console.error('Erro ao criar atividade:', err);
+          alert('Erro ao salvar tarefa. Verifique os dados e tente novamente.');
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Erro ao criar step:', err);
+      alert('Erro ao criar etapa da tarefa.');
+    }
+  });
+}
+
 
   adicionarPergunta(): void {
     if (
@@ -207,7 +241,6 @@ export class StepPageComponent implements OnInit {
       return;
     }
 
-    // Marca a alternativa correta
     const options = this.novaPergunta.options.map((opt, index) => ({
       text: opt.text,
       isCorrect: index === this.novaPergunta.correctIndex
@@ -221,7 +254,6 @@ export class StepPageComponent implements OnInit {
 
     this.quiz.push(pergunta);
 
-    // Reset
     this.novaPergunta = {
       statement: '',
       correctIndex: 0,
@@ -242,12 +274,7 @@ export class StepPageComponent implements OnInit {
       return;
     }
 
-    const payload = {
-      tarefaId: this.tarefaSelecionadaId,
-      perguntas: this.quiz
-    };
-
-    this.http.post(`${environment.api}/quiz`, payload, httpOptions).subscribe({
+    this.http.post(`${environment.api}/Activity/${this.tarefaSelecionadaId}/Question`, this.quiz, httpOptions).subscribe({
       next: () => {
         alert('Quiz salvo com sucesso!');
         this.quiz = [];
