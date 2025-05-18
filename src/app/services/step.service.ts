@@ -20,9 +20,9 @@ export class StepService {
     return this.http.patch(`${this.baseUrl}/Step/${stepId}`, stepData, httpOptions);
   }
 
-  /** Obtém os passos de um curso (API exige POST, não GET) */
+ 
 getStepsByCourse(courseId: number): Observable<any[]> {
-  return this.http.post<any[]>(`${this.baseUrl}/Step/Course/${courseId}`, {}, httpOptions);
+  return this.http.get<any[]>(`${this.baseUrl}/Course/${courseId}/with-steps`, httpOptions);
 }
 
 

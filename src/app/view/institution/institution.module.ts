@@ -9,6 +9,7 @@ import { StepComponent } from './step/step.component';
 import { InstitutionLayoutComponent } from './institution-layout/institution-layout.component';
 import { RouterModule } from '@angular/router';
 import { AssociateStudentComponent } from './associate-student/associate-student.component';
+import { AvaliacoesComponent } from './avaliacoes/avaliacoes.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AssociateStudentComponent } from './associate-student/associate-student
     StepComponent,
     InstitutionLayoutComponent,
     AssociateStudentComponent,
+    AvaliacoesComponent,
   ],
   imports: [
     CommonModule,

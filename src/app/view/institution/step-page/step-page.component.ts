@@ -193,10 +193,10 @@ criarTarefa(): void {
       }
 
       const activityPayload = {
-        name: title,
-        description,
-        isRequired: true,
-        maxGrade: 10
+      name: title,
+  description: description || '',
+  isRequired: true,
+  maxGrade: 10,
       };
 
       this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({

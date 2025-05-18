@@ -27,6 +27,7 @@ import { StepComponent } from './view/institution/step/step.component';
 import { StepPageComponent } from './view/institution/step-page/step-page.component';
 import { InstitutionLayoutComponent } from './view/institution/institution-layout/institution-layout.component';
 import { AssociateStudentComponent } from './view/institution/associate-student/associate-student.component';
+import { AvaliacoesComponent } from './view/institution/avaliacoes/avaliacoes.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,7 @@ const routes: Routes = [
           { path: 'password-recovery', component: RequestPasswordChangeComponent, title: 'Recuperação de Senha - Docentify' },
           { path: 'identity-confirmation/:id', component: PasswordChangeConfirmationComponent, title: 'Confirmação de Identidade - Docentify' },
           { path: 'new-password/:id/:codigo', component: NewPasswordCreationComponent, title: 'Criação de Nova Senha - Docentify' },
+          { path: 'avaliacoes', component: AvaliacoesComponent, title: 'avaliaçoes' }
         ]
       }]
   },
@@ -54,7 +56,8 @@ const routes: Routes = [
           { path: '', redirectTo: 'home', pathMatch: 'full' },
           { path: 'home', component: HomeComponent, title: 'Página Inicial - Docentify' },
           { path: 'step', component: StepPageComponent, title: 'Trilha de criação - Docentify' },
-          { path: 'associatestudent', component: AssociateStudentComponent, title: 'Trilha de criação - Docentify' }
+          { path: 'associatestudent', component: AssociateStudentComponent, title: 'Trilha de criação - Docentify' },
+          { path: 'avaliacoes', component: AvaliacoesComponent, title: 'Avaliações' }
 
          
         ]
