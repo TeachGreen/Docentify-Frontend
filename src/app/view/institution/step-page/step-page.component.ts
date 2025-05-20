@@ -182,6 +182,7 @@ criarTarefa(): void {
     alert('Preencha título e descrição da tarefa.');
     return;
   }
+  
 
   const stepPayload = {
     title,
@@ -233,6 +234,43 @@ criarTarefa(): void {
     error: (err) => {
       console.error('Erro ao criar step:', err);
       alert('Erro ao criar etapa da tarefa.');
+    }
+  });
+  
+}
+editarTarefa(tarefa: StepData): void {
+  this.tarefaTitulo = tarefa.title;
+  this.tarefaDescricao = tarefa.description || '';
+  this.tarefaSelecionadaId = tarefa.id ?? null;
+  this.editMode = true;
+}
+
+cancelarEdicao(): void {
+  this.tarefaSelecionadaId = null;
+  this.tarefaTitulo = '';
+  this.tarefaDescricao = '';
+  this.editMode = false;
+}
+
+excluirTarefa(id: number, index: number): void {
+  if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
+
+  this.http.delete(`${environment.api}/Activity/${id}`, httpOptions).subscribe({
+    next: () => {
+      this.tarefas.splice(index, 1);
+      if (this.uploadsPorEtapa[2]) {
+        this.uploadsPorEtapa[2] = this.uploadsPorEtapa[2].filter(t => t.id !== id);
+      }
+
+      if (this.tarefaSelecionadaId === id) {
+        this.cancelarEdicao();
+      }
+
+      alert('Tarefa excluída com sucesso!');
+    },
+    error: (err) => {
+      console.error('Erro ao excluir tarefa:', err);
+      alert('Erro ao excluir tarefa.');
     }
   });
 }
@@ -335,4 +373,5 @@ criarTarefa(): void {
     this.userSteps[this.selectedStepIndex].completed = true;
     this.userSteps = [...this.userSteps];
   }
+  
 }

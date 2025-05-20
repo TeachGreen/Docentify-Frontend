@@ -80,7 +80,7 @@
 
       <!-- Etapa 2 -->
       <div *ngSwitchCase="2">
-        <h6>Criação de Tarefa</h6>
+        <h6>{{ tarefaSelecionadaId ? 'Editar Tarefa' : 'Criação de Tarefa' }}</h6>
         <form class="mb-3" (ngSubmit)="criarTarefa()">
           <div class="mb-2">
             <label class="form-label">Título</label>
@@ -90,16 +90,25 @@
             <label class="form-label">Descrição</label>
             <textarea class="form-control" [(ngModel)]="tarefaDescricao" name="tarefaDescricao" rows="3" required [ngModelOptions]="{ standalone: true }"></textarea>
           </div>
-          <button class="btn btn-primary" type="submit">Salvar Tarefa</button>
+          <button class="btn btn-primary" type="submit">
+            {{ tarefaSelecionadaId ? 'Atualizar Tarefa' : 'Salvar Tarefa' }}
+          </button>
+          <button *ngIf="tarefaSelecionadaId" type="button" class="btn btn-secondary ms-2" (click)="cancelarEdicao()">Cancelar</button>
         </form>
 
         <div *ngIf="tarefas.length > 0">
           <h6>Tarefas criadas:</h6>
           <ul class="list-group">
-            <li *ngFor="let tarefa of tarefas" class="list-group-item">
-              <strong>{{ tarefa.title }}</strong><br />
-              <small>{{ tarefa.description }}</small><br />
-              <small class="text-muted"><em>ID: {{ tarefa.id }}</em></small>
+            <li *ngFor="let tarefa of tarefas; let i = index" class="list-group-item d-flex justify-content-between align-items-start">
+              <div>
+                <strong>{{ tarefa.title }}</strong><br />
+                <small>{{ tarefa.description }}</small><br />
+                <small class="text-muted"><em>ID: {{ tarefa.id }}</em></small>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary" (click)="editarTarefa(tarefa)">Editar</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="excluirTarefa(tarefa.id!, i)">Excluir</button>
+              </div>
             </li>
           </ul>
         </div>
