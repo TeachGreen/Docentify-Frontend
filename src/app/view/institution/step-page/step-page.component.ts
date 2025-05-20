@@ -8,8 +8,9 @@ import { httpOptions } from '../../../config/httpOptions';
 interface StepData {
   title: string;
   content: string;
-  id?: number;
+  id?: number; // activityId
   description?: string;
+  stepId: number; // ID do step (obrigatório para exclusão)
 }
 
 interface QuizPergunta {
@@ -55,12 +56,7 @@ export class StepPageComponent implements OnInit {
   novaPergunta = {
     statement: '',
     correctIndex: 0,
-    options: [
-      { text: '', isCorrect: false },
-      { text: '', isCorrect: false },
-      { text: '', isCorrect: false },
-      { text: '', isCorrect: false }
-    ]
+    options: this.criarOpcoesVazias()
   };
 
   quiz: QuizPergunta[] = [];
@@ -80,6 +76,10 @@ export class StepPageComponent implements OnInit {
     this.loadCursos();
   }
 
+  private criarOpcoesVazias() {
+    return Array(4).fill(null).map(() => ({ text: '', isCorrect: false }));
+  }
+
   loadCursos(name: string | null = null, isRequired: string | null = null): void {
     const institutionId = localStorage.getItem('user');
     let query = `${environment.api}/course/institution/${institutionId}`;
@@ -88,9 +88,7 @@ export class StepPageComponent implements OnInit {
     if (name?.trim()) params.push(`name=${encodeURIComponent(name)}`);
     if (isRequired) params.push(`isRequired=${isRequired}`);
 
-    if (params.length > 0) {
-      query += `?${params.join('&')}`;
-    }
+    if (params.length > 0) query += `?${params.join('&')}`;
 
     this.http.get<any[]>(query, httpOptions).subscribe(data => {
       this.cursos = data;
@@ -111,33 +109,34 @@ export class StepPageComponent implements OnInit {
     this.quiz = [];
     this.userSteps.forEach(s => s.completed = false);
 
-   this.stepService.getStepsByCourse(curso.id).subscribe((response: any) => {
-  const steps = Array.isArray(response?.steps) ? response.steps : response;
+    this.stepService.getStepsByCourse(curso.id).subscribe((response: any) => {
+      const steps = Array.isArray(response?.steps) ? response.steps : response;
 
-  if (!Array.isArray(steps)) {
-    console.error('Erro: resposta inesperada ao buscar os steps', response);
-    return;
-  }
+      if (!Array.isArray(steps)) {
+        console.error('Erro: resposta inesperada ao buscar os steps', response);
+        return;
+      }
 
-  for (const step of steps) {
-    const index = step.type - 1;
-    if (!this.uploadsPorEtapa[index]) this.uploadsPorEtapa[index] = [];
+      for (const step of steps) {
+        const index = step.type - 1;
+        if (!this.uploadsPorEtapa[index]) this.uploadsPorEtapa[index] = [];
 
-    const stepData: StepData = {
-      title: step.title,
-      content: step.content,
-      id: step.id,
-      description: step.description
-    };
+        const stepData: StepData = {
+          title: step.title,
+          content: step.content,
+          id: step.activity?.id ?? undefined,
+          description: step.description,
+          stepId: step.id
+        };
 
-    this.uploadsPorEtapa[index].push(stepData);
-    if (step.type === 3) this.tarefas.push(stepData);
-    this.userSteps[index].completed = true;
-    this.stepIds[index] = step.id;
-  }
+        this.uploadsPorEtapa[index].push(stepData);
+        if (step.type === 3) this.tarefas.push(stepData);
+        this.userSteps[index].completed = true;
+        this.stepIds[index] = step.id;
+      }
 
-  this.userSteps = [...this.userSteps];
-});
+      this.userSteps = [...this.userSteps];
+    });
   }
 
   get arquivosDaEtapaSelecionada(): StepData[] {
@@ -163,7 +162,7 @@ export class StepPageComponent implements OnInit {
     const title = this.videoTitulo.trim();
     if (!url || !title) return;
 
-    const novoVideo: StepData = { title, content: url };
+    const novoVideo: StepData = { title, content: url, stepId: 0 };
     if (!this.uploadsPorEtapa[this.selectedStepIndex]) {
       this.uploadsPorEtapa[this.selectedStepIndex] = [];
     }
@@ -175,106 +174,112 @@ export class StepPageComponent implements OnInit {
     this.youtubeUrl = '';
     this.videoTitulo = '';
   }
-criarTarefa(): void {
-  const title = this.tarefaTitulo.trim();
-  const description = this.tarefaDescricao.trim();
-  if (!title || !description || !this.cursoSelecionado) {
-    alert('Preencha título e descrição da tarefa.');
-    return;
-  }
-  
 
-  const stepPayload = {
-    title,
-    description,
-    type: 3,
-    content: '',
-    courseId: this.cursoSelecionado.id
-  };
+  criarTarefa(): void {
+    const title = this.tarefaTitulo.trim();
+    const description = this.tarefaDescricao.trim();
 
-  this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
-    next: (stepRes: any) => {
-      const stepId = stepRes?.id;
-      if (!stepId) {
-        alert('Erro ao criar step.');
-        return;
-      }
+    if (!title || !description || !this.cursoSelecionado) {
+      alert('Preencha título, descrição e selecione um curso corretamente.');
+      return;
+    }
 
-      const activityPayload = {
-      name: title,
-  description: description || '',
-  isRequired: true,
-  maxGrade: 10,
-      };
+    const stepPayload = {
+      title,
+      description,
+      type: 3,
+      content: '',
+      courseId: this.cursoSelecionado.id
+    };
 
-      this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
-        next: (activityRes: any) => {
-          const tarefaCriada: StepData = {
-            title,
-            content: '',
-            id: activityRes?.id,
-            description
-          };
-
-          this.tarefas.push(tarefaCriada);
-          if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
-          this.uploadsPorEtapa[2].push(tarefaCriada);
-          this.stepIds[2] = stepId;
-
-          this.marcarEtapaComoConcluida();
-          this.tarefaTitulo = '';
-          this.tarefaDescricao = '';
-        },
-        error: (err) => {
-          console.error('Erro ao criar atividade:', err);
-          alert('Erro ao salvar tarefa. Verifique os dados e tente novamente.');
+    this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
+      next: (stepRes: any) => {
+        const stepId = stepRes?.id;
+        if (!stepId) {
+          alert('Erro ao criar etapa (step).');
+          return;
         }
-      });
-    },
-    error: (err) => {
-      console.error('Erro ao criar step:', err);
-      alert('Erro ao criar etapa da tarefa.');
-    }
-  });
-  
-}
-editarTarefa(tarefa: StepData): void {
-  this.tarefaTitulo = tarefa.title;
-  this.tarefaDescricao = tarefa.description || '';
-  this.tarefaSelecionadaId = tarefa.id ?? null;
-  this.editMode = true;
-}
 
-cancelarEdicao(): void {
-  this.tarefaSelecionadaId = null;
-  this.tarefaTitulo = '';
-  this.tarefaDescricao = '';
-  this.editMode = false;
-}
+        const activityPayload = {
+          name: title,
+          description,
+          isRequired: true,
+          maxGrade: 10
+        };
 
-excluirTarefa(id: number, index: number): void {
-  if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
+        this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
+          next: (activityRes: any) => {
+            const tarefaCriada: StepData = {
+              title,
+              content: '',
+              id: activityRes?.id,
+              description,
+              stepId
+            };
 
-  this.http.delete(`${environment.api}/Activity/${id}`, httpOptions).subscribe({
-    next: () => {
-      this.tarefas.splice(index, 1);
-      if (this.uploadsPorEtapa[2]) {
-        this.uploadsPorEtapa[2] = this.uploadsPorEtapa[2].filter(t => t.id !== id);
+            this.tarefas.push(tarefaCriada);
+            if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
+            this.uploadsPorEtapa[2].push(tarefaCriada);
+            this.stepIds[2] = stepId;
+
+            this.marcarEtapaComoConcluida();
+            this.cancelarEdicao();
+          },
+          error: (err) => {
+            console.error('Erro ao criar atividade:', err);
+            alert('Erro ao salvar tarefa.');
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao criar step:', err);
+        alert('Erro ao criar etapa da tarefa.');
       }
+    });
+  }
 
-      if (this.tarefaSelecionadaId === id) {
-        this.cancelarEdicao();
-      }
+  editarTarefa(tarefa: StepData): void {
+    this.tarefaTitulo = tarefa.title;
+    this.tarefaDescricao = tarefa.description || '';
+    this.tarefaSelecionadaId = tarefa.id ?? null;
+    this.editMode = true;
+  }
 
-      alert('Tarefa excluída com sucesso!');
-    },
-    error: (err) => {
-      console.error('Erro ao excluir tarefa:', err);
-      alert('Erro ao excluir tarefa.');
+  cancelarEdicao(): void {
+    this.tarefaSelecionadaId = null;
+    this.tarefaTitulo = '';
+    this.tarefaDescricao = '';
+    this.editMode = false;
+  }
+
+  excluirTarefa(id: number, index: number): void {
+    const tarefa = this.tarefas[index];
+    if (!tarefa || !tarefa.stepId) {
+      alert('Erro ao encontrar o step da tarefa.');
+      return;
     }
-  });
-}
 
+    if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
+
+    this.http.delete(`${environment.api}/Step/${tarefa.stepId}`, httpOptions).subscribe({
+      next: () => {
+        this.tarefas.splice(index, 1);
+        if (this.uploadsPorEtapa[2]) {
+          this.uploadsPorEtapa[2] = this.uploadsPorEtapa[2].filter(t => t.id !== id);
+        }
+
+        if (this.tarefaSelecionadaId === id) {
+          this.cancelarEdicao();
+        }
+
+        alert('Tarefa excluída com sucesso!');
+      },
+      error: (err) => {
+        console.error('Erro ao excluir tarefa:', err);
+        alert('Erro ao excluir tarefa.');
+      }
+    });
+  }
 
   adicionarPergunta(): void {
     if (
@@ -302,12 +307,7 @@ excluirTarefa(id: number, index: number): void {
     this.novaPergunta = {
       statement: '',
       correctIndex: 0,
-      options: [
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false }
-      ]
+      options: this.criarOpcoesVazias()
     };
 
     alert('Pergunta adicionada com sucesso!');
@@ -373,5 +373,4 @@ excluirTarefa(id: number, index: number): void {
     this.userSteps[this.selectedStepIndex].completed = true;
     this.userSteps = [...this.userSteps];
   }
-  
 }
