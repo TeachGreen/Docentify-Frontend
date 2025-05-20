@@ -111,26 +111,33 @@ export class StepPageComponent implements OnInit {
     this.quiz = [];
     this.userSteps.forEach(s => s.completed = false);
 
-    this.stepService.getStepsByCourse(curso.id).subscribe((steps: any[]) => {
-      for (const step of steps) {
-        const index = step.type - 1;
-        if (!this.uploadsPorEtapa[index]) this.uploadsPorEtapa[index] = [];
+   this.stepService.getStepsByCourse(curso.id).subscribe((response: any) => {
+  const steps = Array.isArray(response?.steps) ? response.steps : response;
 
-        const stepData: StepData = {
-          title: step.title,
-          content: step.content,
-          id: step.id,
-          description: step.description
-        };
+  if (!Array.isArray(steps)) {
+    console.error('Erro: resposta inesperada ao buscar os steps', response);
+    return;
+  }
 
-        this.uploadsPorEtapa[index].push(stepData);
-        if (step.type === 3) this.tarefas.push(stepData);
-        this.userSteps[index].completed = true;
-        this.stepIds[index] = step.id;
-      }
+  for (const step of steps) {
+    const index = step.type - 1;
+    if (!this.uploadsPorEtapa[index]) this.uploadsPorEtapa[index] = [];
 
-      this.userSteps = [...this.userSteps];
-    });
+    const stepData: StepData = {
+      title: step.title,
+      content: step.content,
+      id: step.id,
+      description: step.description
+    };
+
+    this.uploadsPorEtapa[index].push(stepData);
+    if (step.type === 3) this.tarefas.push(stepData);
+    this.userSteps[index].completed = true;
+    this.stepIds[index] = step.id;
+  }
+
+  this.userSteps = [...this.userSteps];
+});
   }
 
   get arquivosDaEtapaSelecionada(): StepData[] {

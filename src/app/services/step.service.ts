@@ -20,10 +20,10 @@ export class StepService {
     return this.http.patch(`${this.baseUrl}/Step/${stepId}`, stepData, httpOptions);
   }
 
- 
-getStepsByCourse(courseId: number): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/Course/${courseId}/with-steps`, httpOptions);
+getStepsByCourse(courseId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Course/${courseId}/with-steps`, httpOptions);
 }
+
 
 
 }
