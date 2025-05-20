@@ -8,9 +8,9 @@ import { httpOptions } from '../../../config/httpOptions';
 interface StepData {
   title: string;
   content: string;
-  id?: number; // activityId
+  id?: number;
   description?: string;
-  stepId: number; // ID do step (obrigatório para exclusão)
+  stepId: number;
 }
 
 interface QuizPergunta {
@@ -72,7 +72,6 @@ export class StepPageComponent implements OnInit {
       name: [''],
       isRequired: ['']
     });
-
     this.loadCursos();
   }
 
@@ -84,15 +83,10 @@ export class StepPageComponent implements OnInit {
     const institutionId = localStorage.getItem('user');
     let query = `${environment.api}/course/institution/${institutionId}`;
     const params: string[] = [];
-
     if (name?.trim()) params.push(`name=${encodeURIComponent(name)}`);
     if (isRequired) params.push(`isRequired=${isRequired}`);
-
     if (params.length > 0) query += `?${params.join('&')}`;
-
-    this.http.get<any[]>(query, httpOptions).subscribe(data => {
-      this.cursos = data;
-    });
+    this.http.get<any[]>(query, httpOptions).subscribe(data => this.cursos = data);
   }
 
   onFilter(): void {
@@ -111,16 +105,13 @@ export class StepPageComponent implements OnInit {
 
     this.stepService.getStepsByCourse(curso.id).subscribe((response: any) => {
       const steps = Array.isArray(response?.steps) ? response.steps : response;
-
       if (!Array.isArray(steps)) {
         console.error('Erro: resposta inesperada ao buscar os steps', response);
         return;
       }
-
       for (const step of steps) {
         const index = step.type - 1;
         if (!this.uploadsPorEtapa[index]) this.uploadsPorEtapa[index] = [];
-
         const stepData: StepData = {
           title: step.title,
           content: step.content,
@@ -128,13 +119,11 @@ export class StepPageComponent implements OnInit {
           description: step.description,
           stepId: step.id
         };
-
         this.uploadsPorEtapa[index].push(stepData);
         if (step.type === 3) this.tarefas.push(stepData);
         this.userSteps[index].completed = true;
         this.stepIds[index] = step.id;
       }
-
       this.userSteps = [...this.userSteps];
     });
   }
@@ -151,25 +140,38 @@ export class StepPageComponent implements OnInit {
     this.selectedStepIndex = index;
   }
 
-  removerArquivo(index: number): void {
-    if (this.uploadsPorEtapa[this.selectedStepIndex]) {
-      this.uploadsPorEtapa[this.selectedStepIndex].splice(index, 1);
-    }
+ removerArquivo(index: number, stepId?: number): void {
+  const lista = this.uploadsPorEtapa[this.selectedStepIndex];
+  if (!lista) return;
+
+  if (stepId) {
+    this.http.delete(`${environment.api}/Step/${stepId}`, httpOptions).subscribe({
+      next: () => {
+        lista.splice(index, 1);
+        alert('Vídeo removido com sucesso!');
+      },
+      error: err => {
+        console.error('Erro ao remover vídeo:', err);
+        alert('Erro ao remover vídeo.');
+      }
+    });
+  } else {
+    lista.splice(index, 1);
   }
+}
+
+
 
   adicionarVideoUrl(): void {
     const url = this.youtubeUrl.trim();
     const title = this.videoTitulo.trim();
     if (!url || !title) return;
-
     const novoVideo: StepData = { title, content: url, stepId: 0 };
     if (!this.uploadsPorEtapa[this.selectedStepIndex]) {
       this.uploadsPorEtapa[this.selectedStepIndex] = [];
     }
-
     this.uploadsPorEtapa[this.selectedStepIndex].push(novoVideo);
     this.createStepNaApi(novoVideo);
-
     this.marcarEtapaComoConcluida();
     this.youtubeUrl = '';
     this.videoTitulo = '';
@@ -178,12 +180,10 @@ export class StepPageComponent implements OnInit {
   criarTarefa(): void {
     const title = this.tarefaTitulo.trim();
     const description = this.tarefaDescricao.trim();
-
     if (!title || !description || !this.cursoSelecionado) {
       alert('Preencha título, descrição e selecione um curso corretamente.');
       return;
     }
-
     const stepPayload = {
       title,
       description,
@@ -191,7 +191,6 @@ export class StepPageComponent implements OnInit {
       content: '',
       courseId: this.cursoSelecionado.id
     };
-
     this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
       next: (stepRes: any) => {
         const stepId = stepRes?.id;
@@ -199,14 +198,12 @@ export class StepPageComponent implements OnInit {
           alert('Erro ao criar etapa (step).');
           return;
         }
-
         const activityPayload = {
           name: title,
           description,
           isRequired: true,
           maxGrade: 10
         };
-
         this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
           next: (activityRes: any) => {
             const tarefaCriada: StepData = {
@@ -216,12 +213,10 @@ export class StepPageComponent implements OnInit {
               description,
               stepId
             };
-
             this.tarefas.push(tarefaCriada);
             if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
             this.uploadsPorEtapa[2].push(tarefaCriada);
             this.stepIds[2] = stepId;
-
             this.marcarEtapaComoConcluida();
             this.cancelarEdicao();
           },
@@ -258,20 +253,16 @@ export class StepPageComponent implements OnInit {
       alert('Erro ao encontrar o step da tarefa.');
       return;
     }
-
     if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
-
     this.http.delete(`${environment.api}/Step/${tarefa.stepId}`, httpOptions).subscribe({
       next: () => {
         this.tarefas.splice(index, 1);
         if (this.uploadsPorEtapa[2]) {
           this.uploadsPorEtapa[2] = this.uploadsPorEtapa[2].filter(t => t.id !== id);
         }
-
         if (this.tarefaSelecionadaId === id) {
           this.cancelarEdicao();
         }
-
         alert('Tarefa excluída com sucesso!');
       },
       error: (err) => {
@@ -282,34 +273,27 @@ export class StepPageComponent implements OnInit {
   }
 
   adicionarPergunta(): void {
-    if (
-      !this.novaPergunta.statement.trim() ||
+    if (!this.novaPergunta.statement.trim() ||
       this.novaPergunta.options.some(opt => !opt.text.trim()) ||
-      this.tarefaSelecionadaId === null
-    ) {
+      this.tarefaSelecionadaId === null) {
       alert('Preencha todos os campos da pergunta e selecione uma tarefa.');
       return;
     }
-
     const options = this.novaPergunta.options.map((opt, index) => ({
       text: opt.text,
       isCorrect: index === this.novaPergunta.correctIndex
     }));
-
     const pergunta: QuizPergunta = {
       statement: this.novaPergunta.statement,
       activityId: this.tarefaSelecionadaId,
       options
     };
-
     this.quiz.push(pergunta);
-
     this.novaPergunta = {
       statement: '',
       correctIndex: 0,
       options: this.criarOpcoesVazias()
     };
-
     alert('Pergunta adicionada com sucesso!');
   }
 
@@ -318,26 +302,21 @@ export class StepPageComponent implements OnInit {
       alert('Adicione perguntas e selecione uma tarefa.');
       return;
     }
-
     this.http.post(`${environment.api}/Activity/${this.tarefaSelecionadaId}/Question`, this.quiz, httpOptions).subscribe({
       next: () => {
         alert('Quiz salvo com sucesso!');
         this.quiz = [];
         this.tarefaSelecionadaId = null;
       },
-      error: () => {
-        alert('Erro ao salvar o quiz.');
-      }
+      error: () => alert('Erro ao salvar o quiz.')
     });
   }
 
   atualizarEtapa(): void {
     const arquivos = this.uploadsPorEtapa[this.selectedStepIndex];
     const stepId = this.stepIds[this.selectedStepIndex];
-    if (!arquivos || arquivos.length === 0 || !stepId) return;
-
+    if (!arquivos?.length || !stepId) return;
     const { title, content, description } = arquivos[0];
-
     const payload = {
       title,
       description: description ?? '',
@@ -345,15 +324,11 @@ export class StepPageComponent implements OnInit {
       content,
       courseId: this.cursoSelecionado.id
     };
-
-    this.stepService.updateStep(stepId, payload).subscribe(() => {
-      this.editMode = false;
-    });
+    this.stepService.updateStep(stepId, payload).subscribe(() => this.editMode = false);
   }
 
   private createStepNaApi(data: StepData): void {
     if (!this.cursoSelecionado) return;
-
     const payload = {
       title: data.title,
       description: data.description ?? '',
@@ -361,10 +336,13 @@ export class StepPageComponent implements OnInit {
       content: data.content,
       courseId: this.cursoSelecionado.id
     };
-
     this.stepService.createStep(this.cursoSelecionado.id, payload).subscribe((res: any) => {
       if (res?.id) {
         this.stepIds[this.selectedStepIndex] = res.id;
+        const lista = this.uploadsPorEtapa[this.selectedStepIndex];
+        if (lista && lista.length) {
+          lista[lista.length - 1].stepId = res.id;
+        }
       }
     });
   }
