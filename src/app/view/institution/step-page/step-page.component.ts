@@ -177,61 +177,85 @@ export class StepPageComponent implements OnInit {
     this.videoTitulo = '';
   }
 
-  criarTarefa(): void {
-    const title = this.tarefaTitulo.trim();
-    const description = this.tarefaDescricao.trim();
-    if (!title || !description || !this.cursoSelecionado) {
-      alert('Preencha título, descrição e selecione um curso corretamente.');
-      return;
-    }
-    const stepPayload = {
-      title,
-      description,
-      type: 3,
-      content: '',
-      courseId: this.cursoSelecionado.id
-    };
-    this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
-      next: (stepRes: any) => {
-        const stepId = stepRes?.id;
-        if (!stepId) {
-          alert('Erro ao criar etapa (step).');
-          return;
-        }
-        const activityPayload = {
-          name: title,
-          description,
-          isRequired: true,
-          maxGrade: 10
-        };
-        this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
-          next: (activityRes: any) => {
-            const tarefaCriada: StepData = {
-              title,
-              content: '',
-              id: activityRes?.id,
-              description,
-              stepId
-            };
-            this.tarefas.push(tarefaCriada);
-            if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
-            this.uploadsPorEtapa[2].push(tarefaCriada);
-            this.stepIds[2] = stepId;
-            this.marcarEtapaComoConcluida();
-            this.cancelarEdicao();
-          },
-          error: (err) => {
-            console.error('Erro ao criar atividade:', err);
-            alert('Erro ao salvar tarefa.');
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Erro ao criar step:', err);
-        alert('Erro ao criar etapa da tarefa.');
-      }
-    });
+ criarTarefa(): void {
+  const title = this.tarefaTitulo.trim();
+  const description = this.tarefaDescricao.trim();
+
+  if (!title || !description || !this.cursoSelecionado) {
+    alert('Preencha título, descrição e selecione um curso corretamente.');
+    return;
   }
+
+  const stepPayload = {
+    title,
+    description,
+    type: 'ActivityStep',
+    content: '',
+    courseId: this.cursoSelecionado.id
+  };
+
+  // Cria a etapa (step) primeiro
+  this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
+    next: (stepRes: any) => {
+      const stepId = stepRes?.id;
+      if (!stepId) {
+        alert('Erro ao criar etapa (step).');
+        return;
+      }
+
+      const activityPayload = {
+        allowedAttempts: 1
+      };
+
+      // Cria a tarefa (atividade)
+      this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
+        next: () => {
+          // Requisição GET para recuperar o ID da atividade
+          this.http.get(`${environment.api}/Activity/Step/${stepId}`, httpOptions).subscribe({
+            next: (activityRes: any) => {
+              const activityId = activityRes?.id;
+              if (!activityId) {
+                alert('Tarefa criada, mas não foi possível recuperar o ID.');
+                return;
+              }
+
+              this.tarefaSelecionadaId = activityId;
+
+              const tarefaCriada: StepData = {
+                title,
+                content: '',
+                id: activityId,
+                description,
+                stepId
+              };
+
+              this.tarefas.push(tarefaCriada);
+              if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
+              this.uploadsPorEtapa[2].push(tarefaCriada);
+              this.stepIds[2] = stepId;
+
+              this.marcarEtapaComoConcluida();
+              this.cancelarEdicao();
+            },
+            error: (err) => {
+              console.error('Erro ao buscar a tarefa recém-criada:', err);
+              alert('Tarefa criada, mas erro ao buscar seu ID.');
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Erro ao criar atividade:', err);
+          alert('Erro ao salvar tarefa.');
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Erro ao criar etapa:', err);
+      alert('Erro ao criar etapa.');
+    }
+  });
+}
+
 
   editarTarefa(tarefa: StepData): void {
     this.tarefaTitulo = tarefa.title;
