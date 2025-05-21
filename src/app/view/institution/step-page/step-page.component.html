@@ -38,13 +38,6 @@
 
     <app-step [steps]="userSteps" (stepClick)="onStepClick($event)"></app-step>
 
-    <div class="my-3">
-      <button class="btn btn-success me-2" (click)="toggleEditMode()">
-        {{ editMode ? 'Concluir edição' : 'Editar etapa' }}
-      </button>
-      <button *ngIf="editMode" class="btn btn-outline-primary" (click)="atualizarEtapa()">Atualizar etapa</button>
-    </div>
-
     <ng-container [ngSwitch]="selectedStepIndex">
       <!-- Etapa 0 -->
       <div *ngSwitchCase="0">
@@ -103,7 +96,7 @@
               <div>
                 <strong>{{ tarefa.title }}</strong><br />
                 <small>{{ tarefa.description }}</small><br />
-                <small class="text-muted"><em>ID: {{ tarefa.id }}</em></small>
+                <small class="text-muted"><em>ID: {{ tarefa.stepId }}</em></small>
               </div>
               <div class="d-flex gap-2">
                 <button class="btn btn-sm btn-outline-primary" (click)="editarTarefa(tarefa)">Editar</button>

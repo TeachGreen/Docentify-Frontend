@@ -65,7 +65,7 @@ export class StepPageComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private stepService: StepService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -124,7 +124,7 @@ export class StepPageComponent implements OnInit {
         const stepData: StepData = {
           title: step.title,
           content: step.content,
-          id: step.activity?.id ?? undefined,
+          id: step.activityId ?? undefined,
           description: step.description,
           stepId: step.id
         };
@@ -192,56 +192,71 @@ export class StepPageComponent implements OnInit {
       courseId: this.cursoSelecionado.id
     };
 
-    this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
-      next: (stepRes: any) => {
-        const stepId = stepRes?.id;
-        if (!stepId) {
-          alert('Erro ao criar etapa (step).');
-          return;
-        }
-
-        const activityPayload = {
-          name: title,
-          description,
-          isRequired: true,
-          maxGrade: 10
-        };
-
-        this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
-          next: (activityRes: any) => {
-            const tarefaCriada: StepData = {
-              title,
-              content: '',
-              id: activityRes?.id,
-              description,
-              stepId
-            };
-
-            this.tarefas.push(tarefaCriada);
-            if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
-            this.uploadsPorEtapa[2].push(tarefaCriada);
-            this.stepIds[2] = stepId;
-
-            this.marcarEtapaComoConcluida();
-            this.cancelarEdicao();
-          },
-          error: (err) => {
-            console.error('Erro ao criar atividade:', err);
-            alert('Erro ao salvar tarefa.');
+    if (!this.editMode) {
+      this.stepService.createStep(this.cursoSelecionado.id, stepPayload).subscribe({
+        next: (stepRes: any) => {
+          const stepId = stepRes?.id;
+          if (!stepId) {
+            alert('Erro ao criar etapa (step).');
+            return;
           }
-        });
-      },
-      error: (err) => {
-        console.error('Erro ao criar step:', err);
-        alert('Erro ao criar etapa da tarefa.');
-      }
-    });
+
+          const activityPayload = {
+            allowedAttempts: 2
+          };
+
+          this.http.post(`${environment.api}/Activity/Step/${stepId}`, activityPayload, httpOptions).subscribe({
+            next: (activityRes: any) => {
+              const tarefaCriada: StepData = {
+                title,
+                content: '',
+                id: activityRes?.id,
+                description,
+                stepId
+              };
+
+              this.tarefas.push(tarefaCriada);
+              if (!this.uploadsPorEtapa[2]) this.uploadsPorEtapa[2] = [];
+              this.uploadsPorEtapa[2].push(tarefaCriada);
+              this.stepIds[2] = stepId;
+
+              this.marcarEtapaComoConcluida();
+              this.cancelarEdicao();
+            },
+            error: (err) => {
+              console.error('Erro ao criar atividade:', err);
+              alert('Erro ao salvar tarefa.');
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Erro ao criar step:', err);
+          alert('Erro ao criar etapa da tarefa.');
+        }
+      });
+    } else {
+      this.http.patch(`${environment.api}/Step/${this.tarefaSelecionadaId}`, stepPayload, httpOptions).subscribe({
+        next: (stepRes: any) => {
+          var i = this.tarefas.findIndex((x) => x.stepId == this.tarefaSelecionadaId)!
+          this.tarefas[i].title = stepPayload.title;
+          this.tarefas[i].description = stepPayload.description;
+
+          this.marcarEtapaComoConcluida();
+          this.cancelarEdicao();
+
+        },
+        error: (err) => {
+          console.error('Erro ao criar step:', err);
+          alert('Erro ao criar etapa da tarefa.');
+        }
+      });
+    }
   }
 
   editarTarefa(tarefa: StepData): void {
     this.tarefaTitulo = tarefa.title;
     this.tarefaDescricao = tarefa.description || '';
-    this.tarefaSelecionadaId = tarefa.id ?? null;
+    this.tarefaSelecionadaId = tarefa.stepId ?? null;
     this.editMode = true;
   }
 
@@ -302,15 +317,24 @@ export class StepPageComponent implements OnInit {
       options
     };
 
-    this.quiz.push(pergunta);
+    this.http.post(`${environment.api}/Activity/${this.tarefaSelecionadaId}/Question`, pergunta, httpOptions).subscribe({
+      next: () => {
+        this.quiz.push(pergunta);
 
-    this.novaPergunta = {
-      statement: '',
-      correctIndex: 0,
-      options: this.criarOpcoesVazias()
-    };
+        this.novaPergunta = {
+          statement: '',
+          correctIndex: 0,
+          options: this.criarOpcoesVazias()
+        };
 
-    alert('Pergunta adicionada com sucesso!');
+        alert('Pergunta adicionada com sucesso!');
+      },
+      error: (err) => {
+        console.error('Erro ao adicionar pergunta:', err);
+        alert('Erro ao adicionar pergunta.');
+      }
+    });
+
   }
 
   salvarQuiz(): void {
